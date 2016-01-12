@@ -1,10 +1,10 @@
 # figwheel-test
 
-FIXME: Write a one-line description of your library/project.
+An experiment to implement 2D geometric algebra in ClosureScript.
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+We (Mark Phillips and I) are just beginning.
 
 ## Setup
 
