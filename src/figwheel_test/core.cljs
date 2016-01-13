@@ -107,10 +107,10 @@
 ; in the multivector format although it is the last
 ; coordinate in the input coordinates of points & lines
 (defn multivector [s [a b c] [x y z] p]
-  (let [mv {:0 [s] :1 [c a b] :2 [z x y] :3 [p]}
-        gaz (gradesAreZero mv)
+  (let [mv      {:0 [s] :1 [c a b] :2 [z x y] :3 [p]}
+        gaz     (gradesAreZero mv)
         kvector (= 1 ((frequencies gaz) false))
-        k (if (not kvector) -1 (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
+        k       (when kvector (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
     (assoc mv :gradesAreZero gaz
               :kvector? kvector
               :k k))
