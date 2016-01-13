@@ -11,3 +11,7 @@ pom.xml
 .lein-plugins/
 .repl
 .nrepl-port
+.idea/workspace.xml
+.idea/replstate.xml
+.idea/vcs.xml
+*.iws
