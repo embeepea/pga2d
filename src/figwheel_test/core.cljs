@@ -27,9 +27,10 @@
 ;;;
 ;;;                ( println s0 s1))
 
-(defn gp [{a :0 [a0 a1 a2] :1 [A0 A1 A2] :2 A :3}
-          {b :0 [b0 b1 b2] :1 [B0 B1 B2] :2 B :3}
-          s]
+(defn gp
+  ([{[a] :0 [a0 a1 a2] :1 [A0 A1 A2] :2 [A] :3}
+     {[b] :0 [b0 b1 b2] :1 [B0 B1 B2] :2 [B] :3}
+     s]
   {:0 (+ (* a b) (- (* A0 B0)) (* a1 b1) (* a2 b2)                         ;;dst.vals[0]
          (* s (+ (- (* A B)) (* a0 b0) (- (* A1 B1)) (- (* A2 B2)))))
    :1 [(+ (* a0 b) (- (* A0 B)) (* a b0) (- (* A B0))                      ;;dst.vals[1]
@@ -46,6 +47,7 @@
           (* a0 b1) (- (* A0 B1)) (* A b2) (* a B2))]
    :3 (+ (* A b) (* a B) (* A0 b0) (* a0 B0)                               ;;dst.vals[7]
          (* A1 b1) (* a1 B1) (* A2 b2) (* a2 B2))})
+  ([g1 g2] (gp g1 g2 0)))
 
 
 ;; Alternate way of coding the above.  Not sure if this is better but it's
@@ -67,9 +69,10 @@
 ;;
 ;; here's the geometric product in terms of the sd function:
 ;;
-(defn gp2 [{a :0 [a0 a1 a2] :1 [A0 A1 A2] :2 A :3}
-           {b :0 [b0 b1 b2] :1 [B0 B1 B2] :2 B :3}
-           s]
+(defn gp2
+  ([{[a] :0 [a0 a1 a2] :1 [A0 A1 A2] :2 [A] :3}
+    {[b] :0 [b0 b1 b2] :1 [B0 B1 B2] :2 [B] :3}
+    s]
   {
    :0 (+ (sd [[a b] [a1 b1] [a2 b2]] [[A0 B0]])
          (* s (sd [[a0 b0]] [[A B] [A1 B1] [A2 B2]])))
@@ -87,10 +90,74 @@
 
    :3 (sd [[A b] [a B] [A0 b0] [a0 B0] [A1 b1] [a1 B1] [A2 b2] [a2 B2]])
    })
+( [ g1 g2 ] (gp2 g1 g2 0)))
 
+(defn zeros? [a]
+  (every? zero? a))
+
+(defn gradesAreZero [mv]
+  [(zeros? (mv :0))
+   (zeros? (mv :1))
+   (zeros? (mv :2))
+   (zeros? (mv :3))]
+  )
+
+; Initialize a multivector.
+; Notice that the homogeneous coordinate comes first
+; in the multivector format although it is the last
+; coordinate in the input coordinates of points & lines
 (defn multivector [s [a b c] [x y z] p]
-  {:0 s :1 [c a b] :2 [z x y] :3 p})
+  (let [mv {:0 [s] :1 [c a b] :2 [z x y] :3 [p]}
+        gaz (gradesAreZero mv)
+        kvector (= 1 ((frequencies gaz) false))
+        k (if (not kvector) -1 (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
+    (assoc mv :gradesAreZero gaz
+              :kvector? kvector
+              :k k))
+  )
 
+; Initialize pure k-vectors for different k
+(defn point [x y z]
+  (multivector 0 [0 0 0] [x y z] 0))
+
+(defn line [a b c]
+  (multivector 0 [a b c] [0 0 0] 0))
+
+(defn scalar [s]
+  (multivector s [0 0 0] [0 0 0] 0))
+
+(defn pseudoscalar [p]
+  (multivector 0 [0 0 0] [0 0 0] p))
+
+; find orthogonal complement (multiply by pseudoscalar)
+(defn polarize [mv s]
+  (gp mv (pseudoscalar 1) s))
+
+(defn scalar? [mv]
+  (= (mv :gradesAreZero) [false true true true])
+  )
+(defn line? [mv]
+  (= (mv :gradesAreZero) [true false true true])
+  )
+(defn point? [mv]
+  (= (mv :gradesAreZero) [true true false true])
+  )
+(defn pseudoscalar? [mv]
+  (= (mv :gradesAreZero) [true true true false])
+  )
+
+; generate some global points and lines for testing
+(def p0 (point 0 0 1))
+(def p1 (point 1 0 0))
+(def p2 (point 0 1 0))
+(def p3 (point 2 3 1))
+
+(def m0 (line 0 0 1))
+(def m1 (line 1 0 0))
+(def m2 (line 0 1 0))
+(def m3 (line .6 .8 1))
+
+(def mv1 (multivector 1 [0 0 0] [4 5 6] 7))
 
 ;;; ;(multivector [1 [1 2 3] [4 5 6] 7])
 ;;; (defn testfn [] (println "hello"))
