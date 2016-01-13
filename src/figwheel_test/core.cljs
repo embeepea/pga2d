@@ -103,11 +103,8 @@
   )
 
 ; Initialize a multivector.
-; Notice that the homogeneous coordinate comes first
-; in the multivector format although it is the last
-; coordinate in the input coordinates of points & lines
-(defn multivector [s [a b c] [x y z] p]
-  (let [mv      {:0 [s] :1 [c a b] :2 [z x y] :3 [p]}
+(defn multivector_native [[s] [a b c] [x y z] [p]]
+  (let [mv      {:0 [s] :1 [a b c] :2 [x y z] :3 [p]}
         gaz     (gradesAreZero mv)
         kvector (= 1 ((frequencies gaz) false))
         k       (when kvector (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
@@ -115,6 +112,16 @@
               :kvector? kvector
               :k k))
   )
+
+; A constructor which accepts (x, y, z) coordinates
+; and converts to native (z,x,y) coordinates,
+; and scalar and pseudoscalar are not arrays yet.
+; Notice that the homogeneous coordinate comes first
+; in the multivector format although it is the last
+; coordinate in the input coordinates of points & lines
+
+(defn multivector [s [a b c] [x y z] p]
+  (multivector_native [s] [c a b] [z x y] [p]))
 
 ; Initialize pure k-vectors for different k
 (defn point [x y z]
@@ -134,17 +141,40 @@
   (gp mv (pseudoscalar 1) s))
 
 (defn scalar? [mv]
-  (= (mv :gradesAreZero) [false true true true])
+  (= (mv :k) 0)
   )
 (defn line? [mv]
-  (= (mv :gradesAreZero) [true false true true])
+  (= (mv :k) 1)
   )
 (defn point? [mv]
-  (= (mv :gradesAreZero) [true true false true])
+  (= (mv :k) 2)
   )
 (defn pseudoscalar? [mv]
-  (= (mv :gradesAreZero) [true true true false])
+  (= (mv :k) 3)
   )
+
+(def reversesigns [1,1,1,1,-1,-1,-1,-1])
+
+
+(defn smultiplier [s]
+  (fn [v] (map #(* s %) v)))
+
+(defn times [mv s]
+  (let [smul (smultiplier s)]
+  (multivector_native (smul (mv :0)) (smul (mv :1))
+                      (smul (mv :2)) (smul (mv :3)))))
+
+(defn gareverse [{[s] :0 [c a b] :1 [z x y] :2 [p] :3}]
+  (multivector s [a b c] (map - [x y z]) (- p)))
+
+(defn normsquared [mv]
+  (when (mv :kvector?) ((gp2 mv (gareverse mv)) :0)))
+
+(defn normalize [mv]
+  (let [ n2 (normsquared mv)]
+  (when (not= n2 nil)
+    (if (= n2 0) mv
+    (times mv (/ 1.0 (Math.sqrt (Math.abs n2))))))))
 
 ; generate some global points and lines for testing
 (def p0 (point 0 0 1))
