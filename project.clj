@@ -21,7 +21,7 @@
 
                 :figwheel {:on-jsload "pga2d.core/on-js-reload"}
 
-                :compiler {:main pga2d.core
+                :compiler {:main pga2d.test
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/pga2d.js"
                            :output-dir "resources/public/js/compiled/out"
@@ -32,7 +32,7 @@
                {:id "min"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/pga2d.js"
-                           :main pga2d.core
+                           :main pga2d.test
                            :optimizations :advanced
                            :pretty-print false}}]}
 
