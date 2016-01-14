@@ -1,4 +1,4 @@
-# figwheel-test
+# pga2d
 
 An experiment to implement 2D geometric algebra in ClosureScript.
 
