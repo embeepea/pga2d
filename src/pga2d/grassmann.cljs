@@ -135,3 +135,12 @@
   (multivector s [a b c] (map - [x y z]) (- p)))
 
 (def gradekeys [:0 :1 :2 :3])
+
+(defn grade [mv  grade]
+  (multivector_native
+    (if (= grade 0) (mv :0) [0])
+    (if (= grade 1) (mv :1) [0 0 0])
+    (if (= grade 2) (mv :2) [0 0 0])
+    (if (= grade 3) (mv :3) [0])
+    )
+  )

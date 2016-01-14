@@ -55,10 +55,13 @@
        )
   )
 
+(defn rawnormsquared [sig mv]
+  (get ((gp sig mv (gr/gareverse mv)) :0) 0))
+
 ; return the norm squared of a k-vector, or else nil
 (defn normsquared [sig mv]
     (when (mv :kvector?)
-      (let [n2 (get ((gp sig mv (gr/gareverse mv)) :0) 0)] ;; scalar part of gp
+      (let [n2 (rawnormsquared sig mv)] ;; scalar part of gp
         (if (ideal? mv n2)
           (let [v (mv (get gr/gradekeys (mv :k)))]
             (idealInnerPro v v))
@@ -68,11 +71,22 @@
       )
     )
 
+(defn norm [sig mv]
+  (Math.sqrt (normsquared sig mv)))
+
 ; normalize a k-vector to have norm 1 (when possible) or else return it unchanged
 (defn normalized [sig mv]
-  (let [ n2 (normsquared sig mv)]
+  (let [n2 (normsquared sig mv)]
   (when (not= n2 nil)
-    (gr/times mv (/ 1.0 (Math.sqrt (Math.abs n2)))))))
+    (let [result (gr/times mv (/ 1.0 (Math.sqrt (Math.abs n2))))
+          ;; handle special case of euclidean point: force positive-z
+          flip (and
+                   (= sig 0)
+                   (= (mv :k) 2)
+                   (< (get (gr/pointFrom mv) 2) 0)
+                   )]
+      (if flip (gr/times result -1) result)
+      ))))
 
 ; invert a k-vector
 (defn inverse [sig mv]
@@ -98,7 +112,9 @@
 (defn ga [sig]
   {
    :gp                      (fn [mv1 mv2] (gp sig mv1 mv2))
+   :rawnormsquared          (fn [mv] (rawnormsquared sig mv))
    :normsquared             (fn [mv] (normsquared sig mv))
+   :norm                    (fn [mv] (norm sig mv))
    :normalized              (fn [mv] (normalized sig mv))
    :polarized               (fn [mv] (polarized sig mv))
    :inverse                 (fn [mv] (inverse sig mv))
