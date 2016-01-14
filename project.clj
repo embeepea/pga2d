@@ -19,7 +19,7 @@
               [{:id "dev"
                 :source-paths ["src"]
 
-                :figwheel {:on-jsload "pga2d.core/on-js-reload"}
+                :figwheel {:on-jsload "pga2d.test/on-js-reload"}
 
                 :compiler {:main pga2d.test
                            :asset-path "js/compiled/out"
