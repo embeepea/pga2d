@@ -3,9 +3,17 @@
 
 (enable-console-print!)
 
-(def p0 (core/point 0 0 1))
-(def p1 (core/point 1 0 0))
+(defn doit [sig]
 
-(println "this is the test!")
+  (def g (core/ga sig))
 
-(println (str "the gp of p0 and p1 is: " (core/gp p0 p1)))
+  (def p0 ((g :point) 0 0 1))
+  (def p1 ((g :point) 1 0 0))
+
+  (println "this is the test!")
+
+  (println (str "the gp (signature " sig " of p0 and p1 is: " ((g :gp) p0 p1)))
+  
+  )
+
+(doit 0)
