@@ -13,5 +13,6 @@ pom.xml
 .repl
 .nrepl-port
 .idea/replstate.xml
+.idea/workspace.xml
 .idea/vcs.xml
 *.iws
