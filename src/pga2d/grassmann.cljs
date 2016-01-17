@@ -99,7 +99,7 @@
         R0 (+ (* A0 b) (* a B0) (- (* a2 b1)) (* a1 b2))
         R1 (+ (* A1 b) (* a2 b0) (* a B1) (- (* a0 b2)))
         R2 (+ (* A2 b) (- (* a1 b0)) (* a0 b1) (* a B2))
-        R (+ (* A b) (* a B) (* A0 b0) (* a0 B0) (* A1 b1) (* A2 b2) (* a2 B2))
+        R (+ (* A b) (* a B) (* A0 b0) (* a0 B0) (* A1 b1) (* a1 B1 ) (* A2 b2) (* a2 B2))
         ]
     (multivector_native [r] [r0 r1 r2] [R0 R1 R2] [R]))
   )

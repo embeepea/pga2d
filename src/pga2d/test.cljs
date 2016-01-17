@@ -1,6 +1,7 @@
 (ns pga2d.test
   (:require [pga2d.grassmann :as gr]
-            [pga2d.clifford :as cf]))
+            [pga2d.clifford :as cf]
+            [pga2d.canvas :as c]))
 
 
 (enable-console-print!)
@@ -69,12 +70,32 @@
       )
     ))
 
+(defmulti render  (fn [cv g mv] (mv :k)))
 
-;; (def l1 (gr/line 1 -1 -1))
-;; (def l2 (gr/line 2 3 1))
-;; (def p
-;;   (gr/pointFrom ((g :gp)
-;;       ((g :normalized) l1)
-;;       ((g :normalized) l2))
-;;      ))
+;; draw a point
+(defmethod render 2 [cv g mv]
+  (let [p (gr/pointFrom ((g :normalized) mv))]
+    ((cv :draw-point) p 5)))
 
+;; draw a line
+(defmethod render 1 [cv g mv]
+  ((cv :draw-line) mv))
+
+(let [cv (c/canvas [-1 -1] [1 1])]
+  ((cv :clear) "#000000")
+  ((cv :set-color) "#ffffff")
+  (let [g   (cf/ga 0)
+        p0  (gr/point 0  0   1)
+        p1  (gr/point 0.5 0.5 1)
+        l01 (gr/join p0 p1)]
+    (render cv g p0)
+    (render cv g p1)
+    ((cv :set-color) "#ffff00")
+    (render  cv g l01)
+    )
+  ;;((cv :draw-point) 0 0 5)
+  ;;((cv :draw-line) [-0.5,-0.5], [0.75,0.5])
+  ;;((cv :set-color) "#009900")
+  ;;((cv :set-line-width) 10)
+  ;;((cv :draw-line) [-0.5,0.5], [0.75,-0.5])
+  )
