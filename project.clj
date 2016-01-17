@@ -9,7 +9,8 @@
                  [org.clojure/core.async "0.2.374"]
                  [figwheel-sidecar  "0.5.0"]]
 
-  :plugins [[lein-cljsbuild "1.1.1"]]
+  :plugins [[lein-cljsbuild "1.1.1"]
+            [lein-figwheel "0.5.0-3"]]
 
   :source-paths ["src" "scripts"]
 
