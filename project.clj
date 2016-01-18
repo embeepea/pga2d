@@ -22,7 +22,7 @@
 
                 :figwheel {:on-jsload "pga2d.test/on-js-reload"}
 
-                :compiler {:main pga2d.test
+                :compiler {:main pga2d.diagram2
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/pga2d.js"
                            :output-dir "resources/public/js/compiled/out"
@@ -42,6 +42,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1.js"
                            :main pga2d.diagram1
+                           :optimizations :advanced
+                           :pretty-print false}}
+
+               ;; lein cljsbuild once diagram2
+               {:id "diagram2"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/diagram2.js"
+                           :main pga2d.diagram2
                            :optimizations :advanced
                            :pretty-print false}}
 
