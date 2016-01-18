@@ -31,8 +31,8 @@
 (def p13 (gr/grade ((g :gp) L1 L3) 2))
 
 (def ans [
-((g :normsquared) p12)
-((g :normsquared) p13)
+((g :norm-squared) p12)
+((g :norm-squared) p13)
 ])
 
 (defn line-line-intersection [[a0 b0 c0] [a1 b1 c1]]
@@ -44,36 +44,25 @@
         p2  (gr/grade p 2)
         np2 ((g :normalized) p2)
         ]
-    (if (cf/ideal? np2 ((g :rawnormsquared) np2))
+    (if (cf/ideal? np2 ((g :ordinary-norm-squared) np2))
       ;; distance between parallel lines:
       ((g :norm) p2)
       ;; intersection point of two lines
-      (gr/pointFrom ((g :normalized) p2))
+      (gr/point-from ((g :normalized) p2))
     )
     ))
 
 (defn line-line-angle [[a0 b0 c0] [a1 b1 c1]]
-  (let [l1  (gr/line a0 b0 c0)
-        l2  (gr/line a1 b1 c1)
-        nl1 ((g :normalized) l1)
-        nl2 ((g :normalized) l2)
-        p   ((g :gp) nl1 nl2)
-        p2  (gr/grade p 2)
-        np2 ((g :normalized) p2)
-        ]
-    (if (cf/ideal? np2 ((g :rawnormsquared) np2))
-      ;; distance between parallel lines:
-      nil
-      ;; angle between two lines:
-      (Math.asin ((g :norm) p2))
-      )
-    ))
+  ((g :measure-of-rotor) ((g :gp)
+                         (gr/line a0 b0 c0)
+                         (gr/line a1 b1 c1)))
+   )
 
 (defmulti render  (fn [cv g mv] (mv :k)))
 
 ;; draw a point
 (defmethod render 2 [cv g mv]
-  (let [p (gr/pointFrom ((g :normalized) mv))]
+  (let [p (gr/point-from ((g :normalized) mv))]
     ((cv :draw-point) p 5)))
 
 ;; draw a line
@@ -107,6 +96,8 @@
                      pt02 (gr/grade gp02 2)
                      pt01 (gr/grade gp01 2)
                      ]
-                 [pt02 pt01 ((g :normsquared) pt02) ((g :normsquared) pt01)]
+                 [pt02 pt01 ((g :norm-squared) pt02) ((g :norm-squared) pt01)]
                  )
   )
+
+(println "test")

@@ -11,7 +11,7 @@
 
 ;; draw a point
 (defmethod render 2 [cv g mv]
-  (let [p (gr/pointFrom ((g :normalized) mv))]
+  (let [p (gr/point-from ((g :normalized) mv))]
     ((cv :draw-point) p 5)))
 
 ;; draw a line

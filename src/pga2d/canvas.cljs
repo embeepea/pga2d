@@ -38,7 +38,7 @@
                  (gr/line 1 0 (- xMax))  ;; right   x = xMax
                  (gr/line 0 1 (- yMax))  ;; top     y = yMax
                  (gr/line 1 0 (- xMin))] ;; left    x = xMin
-        distances           (map #(+ 1e-6 (gr/pseudoscalarFrom (gr/wedge line %))) verts)
+        distances           (map #(+ 1e-6 (gr/pseudoscalar-from (gr/wedge line %))) verts)
         sign-changes        (map * distances  (rotate 1 distances))
         edge-indices        (indices #(< % 0) sign-changes)
         intersecting-edges  (map #(get edges %) edge-indices)
@@ -82,9 +82,9 @@
        :set-color
        (fn [color]
          (set! (.-strokeStyle ctx) color)
-         (set! (.-fillStyle ctx)  color))
+         (set! (.-fillStyle ctx) color))
 
-       :draw-point       
+       :draw-point
        (fn [p r]
          (let [[x y] (normalized p)]
            (.beginPath ctx)
@@ -97,7 +97,7 @@
 
        :draw-line
        (fn [line-mv]
-         (let [ps (map #(gr/pointFrom %)  (line-rectangle-intersection line-mv [ll ur]))]
+         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [ll ur]))]
            (when (= (count ps) 2)
              (let [[x0 y0] (normalized (first ps))
                    [x1 y1] (normalized (second ps))]
@@ -105,7 +105,7 @@
                (.moveTo ctx (xp x0) (yp y0))
                (.lineTo ctx (xp x1) (yp y1))
                (.stroke ctx)))))
-       
+
        :draw-segment
        (fn [p0 p1]
          (let [[x0 y0] (normalized p0)
@@ -115,5 +115,5 @@
            (.lineTo ctx (xp x1) (yp y1))
            (.stroke ctx)))
 
-      }
+       }
       )))

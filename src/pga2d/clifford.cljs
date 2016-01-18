@@ -40,17 +40,21 @@
 (defn polarized [sig mv]
   (gp sig mv (gr/pseudoscalar 1)))
 
-(defn idealInnerPro [v0 v1]  ;; positive definite ip
+;; the follow pos def inner product produces correct result
+;; for ideal elements (lines or points) in euclidean or hyperbolic
+;; metric.
+(defn ideal-inner-product [v0 v1]  ;; positive definite ip
   (apply + (map * v0 v1)))
 
-(defn rawnormsquared [sig mv]
-  (get ((gp sig mv (gr/gareverse mv)) :0) 0))
+;; evaluate gp(mv, reverse(mv)) to obtain a scalar
+(defn ordinary-norm-squared [sig mv]
+  (get ((gp sig mv (gr/ga-reverse mv)) :0) 0))
 
 ;; private function to decide whether the k-vector is ideal (null vector)
 ;; only allow 1- and 2-vectors
 (defn ideal?
   ([sig mv]
-   (ideal? sig mv (rawnormsquared sig mv))
+   (ideal? sig mv (ordinary-norm-squared sig mv))
     )
   ([sig mv nv]
    (and
@@ -64,7 +68,7 @@
     )
   )
 
-
+;; a rotor is a translator when its center is ideal
 (defn translator? [sig rotor]
   (when (rotor :rotor?)
     (let [grade-2 (gr/grade rotor 2)]
@@ -73,54 +77,49 @@
     )
   )
 
-;; return the norm squared of a k-vector, or else nil
-;; evaluate gp(mv, reverse(mv)) to obtain a scalar
-(defn rawnormsquared [sig mv]
-  (get ((gp sig mv (gr/gareverse mv)) :0) 0))
-
 ;; return the norm squared of a k-vector or rotor
 ;; evaluate the ideal norm when the ordinary norm is 0 
-(defn normsquared [sig mv]
+(defn norm-squared [sig mv]
     (when (or (mv :kvector?) (mv :rotor?))
-        (if (ideal? sig mv)
+        (if (and (not (mv :rotor?)) (ideal? sig mv))
           (let [v (mv (get gr/gradekeys (mv :k)))]
-            (idealInnerPro v v))
-          (rawnormsquared sig mv)
+            (ideal-inner-product v v))
+          (ordinary-norm-squared sig mv)
           )
         )
     )
 
 (defn norm [sig mv]
-  (Math.sqrt (normsquared sig mv)))
+  (Math.sqrt (Math.abs (norm-squared sig mv))))
 
 ; normalize a k-vector to have norm 1 (when possible) or else return it unchanged
 (defn normalized [sig mv]
-  (let [n2 (normsquared sig mv)]
+  (let [n2 (norm-squared sig mv)]
   (when (not= n2 nil)
-    (let [result (gr/times mv (/ 1.0 (Math.sqrt (Math.abs n2))))
+    (let [result (gr/times mv (/ 1.0 (norm sig mv)))
           ;; handle special case of euclidean point: force positive-z
           flip (and
                    (= sig 0)
                    (= (mv :k) 2)
-                   (< (get (gr/pointFrom mv) 2) 0)
+                   (< (get (gr/point-from mv) 2) 0)
                    )]
       (if flip (gr/times result -1) result)
       ))))
 
 (def e0 (gr/line 0 0 1))
 
+;; calculate the angle of a rotation or distance of a translation
 (defn measure-of-rotor [sig rotor]
   (when (rotor :rotor?)
     (let [grade-2 (gr/grade rotor 2)]
       ;; check if it's a translator
-      (if (rotor sig translator?)
-        (let [volume (gp sig grade-2 e0)
-              distance (gr/pseudoscalarFrom volume)]
+      (if (translator?  sig rotor )
+        (let [distance (norm sig grade-2)]
           distance)
         (let [zneg (< (get (rotor :2) 0) 0)  ;; z-coordinate; XXX make metric-neutral
-              xcord (gr/scalarFrom rotor)  ;; cosine of angle
+              xcord (gr/scalar-from rotor)  ;; cosine of angle
               pnorm (norm sig grade-2)
-              ycord (if (zneg) (- pnorm) pnorm)
+              ycord (if zneg (- pnorm) pnorm)
               pangle (Math.atan2 ycord xcord)]
             (println (str "xcord = " xcord " pnorm = " pnorm " ycord = " ycord))
             pangle)
@@ -132,7 +131,7 @@
 ; invert a k-vector or a rotor
 (defn inverse [sig mv]
   (when (or (mv :kvector?) (mv :rotor?))
-    (let [n2 (normsquared sig mv)]
+    (let [n2 (norm-squared sig mv)]
       (when (and (not= nil n2) (not= 0 n2))
         (gr/times mv (/ 1.0 n2))
         )
@@ -152,13 +151,16 @@
 
 (defn ga [sig]
   {
-   :gp                      (fn [mv1 mv2] (gp sig mv1 mv2))
-   :rawnormsquared          (fn [mv] (rawnormsquared sig mv))
-   :normsquared             (fn [mv] (normsquared sig mv))
-   :norm                    (fn [mv] (norm sig mv))
-   :normalized              (fn [mv] (normalized sig mv))
-   :polarized               (fn [mv] (polarized sig mv))
-   :inverse                 (fn [mv] (inverse sig mv))
-   :ideal?                  (fn [mv] (ideal? sig mv))
-  }
+   :gp                    (fn [mv1 mv2] (gp sig mv1 mv2))
+   :ordinary-norm-squared (fn [mv] (ordinary-norm-squared sig mv))
+   :norm-squared          (fn [mv] (norm-squared sig mv))
+   :norm                  (fn [mv] (norm sig mv))
+   :normalized            (fn [mv] (normalized sig mv))
+   :polarized             (fn [mv] (polarized sig mv))
+   :inverse               (fn [mv] (inverse sig mv))
+   :ideal?                (fn [mv] (ideal? sig mv))
+   :measure-of-rotor      (fn [mv] (measure-of-rotor sig mv))
+   :reflector             (fn [mv] (reflector sig mv))
+   :translator?           (fn [mv] (translator? sig mv))
+   }
 )

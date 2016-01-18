@@ -20,9 +20,11 @@
   (let [mv      {:0 [s] :1 [a b c] :2 [x y z] :3 [p]}
         gaz     (gradesAreZero mv)
         kvector (= 1 ((frequencies gaz) false))
+        rotor   (and (not (gaz 2)) (gaz 1) (gaz 3))
         k       (when kvector (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
     (assoc mv :gradesAreZero gaz
               :kvector? kvector
+              :rotor? rotor
               :k k))
   )
 
@@ -60,17 +62,17 @@
 
 ; extract the various grades (in (x,y,z) coordinate order)
 ; either as real values or as 3-vectors
-(defn scalarFrom [mv]
+(defn scalar-from [mv]
   (get (mv :0) 0))
 
-(defn pseudoscalarFrom [mv]
+(defn pseudoscalar-from [mv]
   (get (mv :3) 0))
 
-(defn lineFrom [mv]
+(defn line-from [mv]
   (let [[c a b] (mv :1)]
     [a b c]))
 
-(defn pointFrom [mv]
+(defn point-from [mv]
   (let [[z x y] (mv :2)]
    [x y z]))
 
@@ -87,7 +89,7 @@
 (defn pseudoscalar? [mv]
   (= (mv :k) 3)
   )
-(defn evenSubalg? [mv]
+(defn even-subalg [mv]
   (and (get (mv :gradesAreZero) 1)
        (get (mv :gradesAreZero) 3)))
 
@@ -142,14 +144,5 @@
                         (smul (mv :2)) (smul (mv :3)))))
 
 ; reverse the order of all products of 1-vectors in a mv ('reverse' is already taken)
-(defn gareverse [{[s] :0 [c a b] :1 [z x y] :2 [p] :3}]
+(defn ga-reverse [{[s] :0 [c a b] :1 [z x y] :2 [p] :3}]
   (multivector s [a b c] (map - [x y z]) (- p)))
-
-(defn grade [mv  grade]
-  (multivector_native
-    (if (= grade 0) (mv :0) [0])
-    (if (= grade 1) (mv :1) [0 0 0])
-    (if (= grade 2) (mv :2) [0 0 0])
-    (if (= grade 3) (mv :3) [0])
-    )
-  )
