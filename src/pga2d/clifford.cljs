@@ -43,32 +43,43 @@
 (defn idealInnerPro [v0 v1]  ;; positive definite ip
   (apply + (map * v0 v1)))
 
-;; private function to decide whether the k-vector is ideal (null vector)
-;; only allow 1- and 2-vectors
-(defn ideal? [mv nv]
-  (and (mv :kvector?)
-       (and (= nv 0)
-            (or (gr/line? mv)
-                (gr/point? mv)
-                )
-            )
-       )
-  )
-
 (defn rawnormsquared [sig mv]
   (get ((gp sig mv (gr/gareverse mv)) :0) 0))
 
+;; private function to decide whether the k-vector is ideal (null vector)
+;; only allow 1- and 2-vectors
+(defn ideal?
+  ([sig mv]
+   (ideal? sig mv (rawnormsquared sig mv))
+    )
+  ([sig mv nv]
+   (and
+     (mv :kvector?)
+     (and (= nv 0)
+          (or (gr/line? mv)
+              (gr/point? mv)
+              )
+          )
+     )
+    )
+  )
+
+(defn translator? [sig rotor]
+  (when (rotor :rotor?)
+    (let [grade-2 (gr/grade rotor 2)]
+      (ideal? sig grade-2)
+      )
+    )
+  )
 ; return the norm squared of a k-vector, or else nil
 (defn normsquared [sig mv]
-    (when (mv :kvector?)
-      (let [n2 (rawnormsquared sig mv)] ;; scalar part of gp
-        (if (ideal? mv n2)
+    (when (or (mv :kvector?) (mv :rotor?))
+        (if (ideal? sig mv)
           (let [v (mv (get gr/gradekeys (mv :k)))]
             (idealInnerPro v v))
-          n2
+          (rawnormsquared sig mv)
           )
         )
-      )
     )
 
 (defn norm [sig mv]
@@ -88,9 +99,31 @@
       (if flip (gr/times result -1) result)
       ))))
 
-; invert a k-vector
+(def e0 (gr/line 0 0 1))
+
+(defn measure-of-rotor [sig rotor]
+  (when (rotor :rotor?)
+    (let [grade-2 (gr/grade rotor 2)]
+      ;; check if it's a translator
+      (if (rotor sig translator?)
+        (let [volume (gp sig grade-2 e0)
+              distance (gr/pseudoscalarFrom volume)]
+          distance)
+        (let [zneg (< (get (rotor :2) 0) 0)  ;; z-coordinate; XXX make metric-neutral
+              xcord (gr/scalarFrom rotor)  ;; cosine of angle
+              pnorm (norm sig grade-2)
+              ycord (if (zneg) (- pnorm) pnorm)
+              pangle (Math.atan2 ycord xcord)]
+            (println (str "xcord = " xcord " pnorm = " pnorm " ycord = " ycord))
+            pangle)
+          )
+        )
+      )
+    )
+
+; invert a k-vector or a rotor
 (defn inverse [sig mv]
-  (when (mv :kvector?)
+  (when (or (mv :kvector?) (mv :rotor?))
     (let [n2 (normsquared sig mv)]
       (when (and (not= nil n2) (not= 0 n2))
         (gr/times mv (/ 1.0 n2))
@@ -118,5 +151,6 @@
    :normalized              (fn [mv] (normalized sig mv))
    :polarized               (fn [mv] (polarized sig mv))
    :inverse                 (fn [mv] (inverse sig mv))
+   :ideal?                  (fn [mv] (ideal? sig mv))
   }
 )
