@@ -97,7 +97,7 @@ copy the "diagram1" files and code as follows:
    
 2. Copy the file `src/pga2d/diagram1.cljs` to `src/pga2d/myprog.cljs`, then
    edit it to create your new program.  Be sure to change the name in the
-   `ns` call at the top from "pga2d.diagram1 to "pga2d.myprog'.
+   `ns` call at the top from "pga2d.diagram1" to "pga2d.myprog".
    
 3. Copy the file `resources/public/diagram1.html` to `resources/public/myprog.html`,
    and edit it to change all occurences of "diagram1" to "myprog" (there should
