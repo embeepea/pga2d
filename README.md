@@ -77,8 +77,9 @@ you want to deploy the results to a web server, deploy the entire
 You can also create an additional "main" program in the project and set
 up an alternate build target and corresponding HTML file for it, so that
 you can create, maintain, build, and deploy multiple separate programs from
-this same project.  To create a new "main" program named "myprog", for example,
-do the following
+this same project.  The project contains one alternate main program and build
+target called "diagram1".  To create a new "main" program named "myprog", for example,
+copy the "diagram1" files and code as follows:
 
 1. Edit the file `project.clj` to find the section that looks like:
 
