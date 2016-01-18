@@ -2,6 +2,8 @@
 
 An experiment to implement 2D geometric algebra in ClosureScript.
 
+![sample diagram](./screenshot.png)
+
 ## Overview
 
 We (Mark Phillips and I) are just beginning.
