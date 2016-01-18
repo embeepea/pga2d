@@ -97,6 +97,7 @@
   ;;((cv :set-color) "#009900")
   ;;((cv :set-line-width) 10)
   ;;((cv :draw-line) [-0.5,0.5], [0.75,-0.5])
+  )
 
 (def compareGP (let [l0 (gr/line 1 0 0)  ;; x == 0
                      l1 (gr/line 1 0 -3) ;; x == 3
