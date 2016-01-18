@@ -15,7 +15,6 @@
 (def v0 (gr/point 2 3 0))
 
 (def m0 (gr/line 0 0 1))
-(def p3 (gr/point 2 3 1))
 (def m1 (gr/line 1 0 0))
 (def m2 (gr/line 0 1 0))
 (def m3 (gr/line .6 .8 1))
@@ -98,4 +97,15 @@
   ;;((cv :set-color) "#009900")
   ;;((cv :set-line-width) 10)
   ;;((cv :draw-line) [-0.5,0.5], [0.75,-0.5])
+
+(def compareGP (let [l0 (gr/line 1 0 0)  ;; x == 0
+                     l1 (gr/line 1 0 -3) ;; x == 3
+                     l2 (gr/line 0 1 0)
+                     gp02 ((g :gp) l0 l2)
+                     gp01 ((g :gp) l0 (g :normalized l1))
+                     pt02 (gr/grade gp02 2)
+                     pt01 (gr/grade gp01 2)
+                     ]
+                 [pt02 pt01 ((g :normsquared) pt02) ((g :normsquared) pt01)]
+                 )
   )

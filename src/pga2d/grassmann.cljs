@@ -13,6 +13,8 @@
    (zeros? (mv :3))]
   )
 
+(def gradekeys [:0 :1 :2 :3])
+
 ; Initialize a multivector.
 (defn multivector_native [[s] [a b c] [x y z] [p]]
   (let [mv      {:0 [s] :1 [a b c] :2 [x y z] :3 [p]}
@@ -33,6 +35,15 @@
 
 (defn multivector [s [a b c] [x y z] p]
   (multivector_native [s] [c a b] [z x y] [p]))
+
+(defn grade [mv grade]
+  (multivector_native
+    (if (= grade 0) (mv :0) [0])
+    (if (= grade 1) (mv :1) [0 0 0])
+    (if (= grade 2) (mv :2) [0 0 0])
+    (if (= grade 3) (mv :3) [0])
+    )
+  )
 
 ; Initialize pure k-vectors for different k
 (defn point [x y z]
@@ -133,8 +144,6 @@
 ; reverse the order of all products of 1-vectors in a mv ('reverse' is already taken)
 (defn gareverse [{[s] :0 [c a b] :1 [z x y] :2 [p] :3}]
   (multivector s [a b c] (map - [x y z]) (- p)))
-
-(def gradekeys [:0 :1 :2 :3])
 
 (defn grade [mv  grade]
   (multivector_native
