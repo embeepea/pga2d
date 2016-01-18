@@ -50,10 +50,64 @@ and you should see an alert in the browser window.
 To clean all compiled files:
 
     lein clean
+    
+    
+## Creating a Production Build
+    
+By a "production build" we mean a collection of files that you can
+generate on your development machine which can then be put on a web
+server, and/or viewed in a browser.  No ClojureScript compiler or
+other tools are needed on either the server or in the browser -- a
+production build consists of a collection of plain HTML, JS, and CSS
+files; these files can be deployed to any web server and viewed in any
+reasonably modern web browser.  A production build does NOT include a
+REPL or hot code reloading.
 
-To create a production build run:
+The default "main" program is the file src/pga2d/test.cljs.  To create a 
+To create a production build of this file, run the command:
 
     lein cljsbuild once min
+    
+Then open the file `resources/public/index.html` in your browser.  If
+you want to deploy the results to a web server, deploy the entire
+"resources/public" directory to the server.
 
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL. 
+### Creating an Alternate Production Build ("New Diagram")
+
+You can also create an additional "main" program in the project and set
+up an alternate build target and corresponding HTML file for it, so that
+you can create, maintain, build, and deploy multiple separate programs from
+this same project.  To create a new "main" program named "myprog", for example,
+do the following
+
+1. Edit the file `project.clj` to find the section that looks like:
+
+   ```clj
+   {:id "diagram1"
+    :source-paths ["src"]
+    :compiler {:output-to "resources/public/js/compiled/diagram1.js"
+               :main pga2d.diagram1
+               :optimizations :advanced
+               :pretty-print false}}
+   ```
+
+   Copy/paste this section to create a duplicate of it, and change all
+   occurences of "diagram1" to "myprog".
+   
+2. Copy the file `src/pga2d/diagram1.cljs` to `src/pga2d/myprog.cljs`, then
+   edit it to create your new program.  Be sure to change the name in the
+   `ns` call at the top from "pga2d.diagram1 to "pga2d.myprog'.
+   
+3. Copy the file `resources/public/diagram1.html` to `resources/public/myprog.html`,
+   and edit it to change all occurences of "diagram1" to "myprog" (there should
+   only be one, near the end of the file).
+   
+4. Run the build with the command   
+
+   ```
+   lein cljsbuild once myprog
+   ```
+    
+5. Open the file `resources/public/myprog.html` in your browser.  If
+   you want to deploy the results to a web server, deploy the entire
+   "resources/public" directory to the server.

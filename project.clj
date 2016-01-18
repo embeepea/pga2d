@@ -37,14 +37,13 @@
                            :optimizations :advanced
                            :pretty-print false}}
 
+               ;; lein cljsbuild once diagram1
                {:id "diagram1"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1.js"
                            :main pga2d.diagram1
                            :optimizations :advanced
                            :pretty-print false}}
-               
-
 
                ]}
 
