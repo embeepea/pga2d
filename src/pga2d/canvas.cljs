@@ -1,6 +1,7 @@
 (ns pga2d.canvas
   (:require [pga2d.grassmann :as gr]
-            [pga2d.clifford :as cf]))
+            [pga2d.clifford :as cf]
+            [goog.events :as events]))
 
 (enable-console-print!)
 
@@ -65,11 +66,50 @@
 ;;        (map vector verts signs)
 ;;        )))))
 ;;
-(defn canvas [ll ur]
-  (let [canvas-element (by-id "canvas")
-        [w h]  (current-window-size)
-        xp     (linear-interpolator (ll 0) (ur 0) 0 w)
-        yp     (linear-interpolator (ll 1) (ur 1) h 0)]
+
+(defn canvas
+  ([ll ur] (canvas ll ur {}))
+  ([ll ur options]
+   (let [defaults       {:preserve-aspect false
+                         :mouse-handler nil}
+         settings       (into defaults options)
+         canvas-element (by-id "canvas")
+         [w h]          (current-window-size)
+         d              (min w h)
+         xp             (if (:preserve-aspect settings)
+                          (linear-interpolator (ll 0) (ur 0) 0 w)
+                          (linear-interpolator (ll 0) (ur 0) (/ (- w d) 2)  (/ (+ w d)  2)))
+         yp             (if (:preserve-aspect settings)
+                          (linear-interpolator (ll 1) (ur 1) h 0)
+                          (linear-interpolator (ll 1) (ur 1) (/ (+ h d) 2)  (/ (- h d)  2)))
+         px             (if (:preserve-aspect settings)
+                          (linear-interpolator 0 w (ll 0) (ur 0))
+                          (linear-interpolator (/ (- w d) 2)  (/ (+ w d)  2) (ll 0) (ur 0)))
+         py             (if (:preserve-aspect settings)
+                          (linear-interpolator h 0 (ll 1) (ur 1))
+                          (linear-interpolator (/ (+ h d) 2)  (/ (- h d)  2) (ll 1) (ur 1)))
+         wll            [ (px 0) (py h) ]
+         wur            [ (px w) (py 0) ]
+         mouse-state    (atom {:down false})
+         ]
+
+     (when (:mouse-handler settings)
+       (events/listen
+        canvas-element events/EventType.MOUSEUP
+        (fn [event] (swap! mouse-state assoc :down false :xy nil)))
+       (events/listen
+        canvas-element events/EventType.MOUSEDOWN
+        (fn [event] (swap! mouse-state assoc :down true :base [(px (.-offsetX event)) (py (.-offsetY event))])))
+       (events/listen
+        canvas-element events/EventType.MOUSEMOVE
+        (fn [event] (let [xy  [(px (.-offsetX event)) (py (.-offsetY event))]]
+                      (if (@mouse-state :down)
+                        ((:mouse-handler settings) {:type :drag
+                                                    :d [(- (xy 0) ((@mouse-state :base) 0))
+                                                        (- (xy 1) ((@mouse-state :base) 1))]})
+                        ((:mouse-handler settings) {:type :move :xy xy})))))
+       )
+     
     (set! (.-width canvas-element) w)
     (set! (.-height canvas-element) h)
     (let [ctx (.getContext canvas-element "2d")]
@@ -97,7 +137,7 @@
 
        :draw-line
        (fn [line-mv]
-         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [ll ur]))]
+         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [wll wur]))]
            (when (= (count ps) 2)
              (let [[x0 y0] (normalized (first ps))
                    [x1 y1] (normalized (second ps))]
@@ -117,3 +157,31 @@
 
        }
       )))
+  )
+
+
+
+(defmulti render  (fn [cv g mv] (mv :k)))
+
+;; draw a point
+(defmethod render 2 [cv g mv]
+  (let [p (gr/point-from ((g :normalized) mv))]
+    ((cv :draw-point) p 5)))
+
+;; draw a line
+(defmethod render 1 [cv g mv]
+  ((cv :draw-line) mv))
+
+(defmethod render nil [cv g mv]
+  (println "invalid render")
+  )
+
+(defn canvas-render [cv g]
+  (fn renderfunc
+    ([mv] (renderfunc mv {}))
+    ([mv options]
+     (when (:color options) ((cv :set-color) (:color options)))
+     (if (= (type mv) cljs.core/PersistentArrayMap)
+       (render cv g mv)
+       (doall (map renderfunc mv))
+       ))))

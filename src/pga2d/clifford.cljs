@@ -124,7 +124,6 @@
               pnorm (norm sig grade-2)
               ycord (if zneg (- pnorm) pnorm)
               pangle (Math.atan2 ycord xcord)]
-            (println (str "xcord = " xcord " pnorm = " pnorm " ycord = " ycord))
             pangle)
           )
         )
@@ -154,7 +153,6 @@
     (sandwich sig mirror)))
 
 (defn exp [sig t rotor]
-  (println "rotor = " rotor)
   (when (rotor :rotor?)
     (if (translator? sig rotor)
       (gr/add
@@ -170,7 +168,6 @@
                       )
                     )
             tt (* t angle)]
-        (println "angle = " angle)
         (normalized sig
           (gr/add
             (gr/scalar (Math.cos tt))
