@@ -85,7 +85,7 @@
   ((cv :clear) "#000000")
   ((cv :set-color) "#ffffff")
   (let [g   (cf/ga 0)
-        p0  (gr/point 0  0   1)
+        p0  (gr/point -1.0  0   1)
         p1  (gr/point 0.5 0.5 1)
         l01 (gr/join p0 p1)]
     (render cv g p0)

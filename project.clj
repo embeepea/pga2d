@@ -35,7 +35,18 @@
                 :compiler {:output-to "resources/public/js/compiled/pga2d.js"
                            :main pga2d.test
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           :pretty-print false}}
+
+               {:id "diagram1"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/diagram1.js"
+                           :main pga2d.diagram1
+                           :optimizations :advanced
+                           :pretty-print false}}
+               
+
+
+               ]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
