@@ -70,7 +70,7 @@
 
 ;; a rotor is a translator when its center is ideal
 (defn translator? [sig rotor]
-  (when (rotor :rotor?)
+  (when (and (rotor :rotor?) (= sig 0))
     (let [grade-2 (gr/grade rotor 2)]
       (ideal? sig grade-2)
       )
@@ -80,14 +80,17 @@
 ;; return the norm squared of a k-vector or rotor
 ;; evaluate the ideal norm when the ordinary norm is 0 
 (defn norm-squared [sig mv]
-    (when (or (mv :kvector?) (mv :rotor?))
-        (if (and (not (mv :rotor?)) (ideal? sig mv))
-          (let [v (mv (get gr/gradekeys (mv :k)))]
-            (ideal-inner-product v v))
-          (ordinary-norm-squared sig mv)
-          )
-        )
+  (if (mv :kvector?)
+    (if (ideal? sig mv)
+      (let [v (mv (get gr/gradekeys (mv :k)))]
+        (ideal-inner-product v v))
+      (ordinary-norm-squared sig mv)
+      )
+    (when (mv :rotor?)
+      (ordinary-norm-squared sig mv)
+      )
     )
+  )
 
 (defn norm [sig mv]
   (Math.sqrt (Math.abs (norm-squared sig mv))))
@@ -142,12 +145,42 @@
 ;;
 ;; isometry code
 ;;
-(defn reflector [sig mirror]
-  (when (and (mirror :kvector?) (= (mirror :k) 1))
-    (fn [X] (gp sig (gp sig mirror X) mirror))
-    )
+(defn sandwich [sig bread]
+    (fn [X] (gp sig (gp sig bread X) (gr/ga-reverse bread)))
   )
 
+(defn reflection [sig mirror]
+  (when (and (mirror :kvector?) (= (mirror :k) 1))
+    (sandwich sig mirror)))
+
+(defn exp [sig t rotor]
+  (println "rotor = " rotor)
+  (when (rotor :rotor?)
+    (if (translator? sig rotor)
+      (gr/add
+        (gr/scalar 1)
+        (gr/times (gr/grade rotor 2) t))
+      (let [angle (measure-of-rotor 0 rotor)
+            ;; take the smaller angle (up to multiples of Pi)
+            angle (if (> angle (/ Math.PI 2))
+                    (- angle Math.PI)
+                    (if (< angle (- (/ Math.PI 2)))
+                           (+ angle Math.PI)
+                           angle
+                      )
+                    )
+            tt (* t angle)]
+        (println "angle = " angle)
+        (normalized sig
+          (gr/add
+            (gr/scalar (Math.cos tt))
+            (gr/times (normalized sig (gr/grade rotor 2))
+                      (Math.sin tt)))
+          )
+        )
+      )
+    )
+  )
 
 (defn ga [sig]
   {
@@ -160,7 +193,8 @@
    :inverse               (fn [mv] (inverse sig mv))
    :ideal?                (fn [mv] (ideal? sig mv))
    :measure-of-rotor      (fn [mv] (measure-of-rotor sig mv))
-   :reflector             (fn [mv] (reflector sig mv))
+   :sandwich              (fn [mv] (sandwich sig mv))
+   :exp                   (fn [t mv] (exp sig t mv))
    :translator?           (fn [mv] (translator? sig mv))
    }
 )

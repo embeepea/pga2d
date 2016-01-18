@@ -20,7 +20,7 @@
   (let [mv      {:0 [s] :1 [a b c] :2 [x y z] :3 [p]}
         gaz     (gradesAreZero mv)
         kvector (= 1 ((frequencies gaz) false))
-        rotor   (and (not (gaz 2)) (gaz 1) (gaz 3))
+        rotor   (and (or (not (gaz 0)) (not (gaz 2))) (gaz 1) (gaz 3))
         k       (when kvector (first (first (filter #(not (% 1)) (map-indexed vector gaz)))))]
     (assoc mv :gradesAreZero gaz
               :kvector? kvector
@@ -145,4 +145,16 @@
 
 ; reverse the order of all products of 1-vectors in a mv ('reverse' is already taken)
 (defn ga-reverse [{[s] :0 [c a b] :1 [z x y] :2 [p] :3}]
-  (multivector s [a b c] (map - [x y z]) (- p)))
+  (multivector_native [s] [c a b] (map - [z x y]) [(- p)]))
+
+(defn chop-vector [v tol]
+  (map (fn [x] (if (> tol (Math.abs x)) 0 x)) v)
+  )
+
+; truncate close-to-zero grades to zero
+(defn chop [mv tol]
+  (multivector_native (chop-vector (mv :0) tol)
+                      (chop-vector (mv :1) tol)
+                      (chop-vector (mv :2) tol)
+                      (chop-vector (mv :3) tol))
+  )
