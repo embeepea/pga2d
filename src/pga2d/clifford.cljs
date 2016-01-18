@@ -64,6 +64,7 @@
     )
   )
 
+
 (defn translator? [sig rotor]
   (when (rotor :rotor?)
     (let [grade-2 (gr/grade rotor 2)]
@@ -71,7 +72,14 @@
       )
     )
   )
-; return the norm squared of a k-vector, or else nil
+
+;; return the norm squared of a k-vector, or else nil
+;; evaluate gp(mv, reverse(mv)) to obtain a scalar
+(defn rawnormsquared [sig mv]
+  (get ((gp sig mv (gr/gareverse mv)) :0) 0))
+
+;; return the norm squared of a k-vector or rotor
+;; evaluate the ideal norm when the ordinary norm is 0 
 (defn normsquared [sig mv]
     (when (or (mv :kvector?) (mv :rotor?))
         (if (ideal? sig mv)
