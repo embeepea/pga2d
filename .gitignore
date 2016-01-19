@@ -7,13 +7,12 @@ pom.xml
 /classes/
 /out/
 /target/
+pga2d.iml
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
 .repl
 .nrepl-port
-.idea/replstate.xml
-.idea/workspace.xml
-.idea/vcs.xml
+.idea/
 *.iws
 **/.DS_Store
