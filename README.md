@@ -102,8 +102,7 @@ copy the "diagram1" files and code as follows:
    `ns` call at the top from "pga2d.diagram1" to "pga2d.myprog".
    
 3. Copy the file `resources/public/diagram1.html` to `resources/public/myprog.html`,
-   and edit it to change all occurences of "diagram1" to "myprog" (there should
-   only be one, near the end of the file).
+   and edit it to change all occurences of "diagram1" to "myprog".
    
 4. Run the build with the command   
 

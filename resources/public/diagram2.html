@@ -10,10 +10,20 @@
         margin: 0;
         padding: 0;
       }
+      #sourcelink {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+      }
+      #sourcelink a:link    { color: #fff; text-decoration: none; }  /* unvisited links */
+      #sourcelink a:visited { color: #fff; text-decoration: none; }  /* visited links   */
+      #sourcelink a:hover   { color: #fff; text-decoration: underline; }  /* user hovers     */
+      #sourcelink a:active  { color: #ccc; text-decoration: underline;  }  /* active links    */
     </style>
   </head>
   <body>
     <canvas id="canvas"></canvas>
+    <div id="sourcelink"><a target="_blank" href="https://github.com/embeepea/pga2d/blob/master/src/pga2d/diagram1.cljs">view the source code for this diagram</a></div>
     <script src="js/compiled/diagram2.js" type="text/javascript"></script>
   </body>
 </html>
