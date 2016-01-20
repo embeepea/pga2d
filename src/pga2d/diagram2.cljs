@@ -22,10 +22,13 @@
       N      (g :normalized)                  ; N = shorthand for :normalized function in g
       A0     (gr/point -1 1 1)                ; A0 = the first given point
       A1     (gr/point .6 .2 1)               ; A1 = the second given point
-      P      (gr/point 0 -1 1)                ; P = a 3rd point, will be used to construct lines m0,m1
+      P      (gr/point 0 -1 0)                ; P = a 3rd point, will be used to construct lines m0,m1
                                               ;   For extreme coolness, setting P to (gr/point 0 -1 0)
                                               ;   will give parallel lines.
-      m0     (N (gr/join P A0))               ; m0 = line through points P,A0
+;;      m0     (N (gr/join P A0))               ; m0 = line through points P,A0
+      ;; for ultimate coolness, when the lines are parallel and have the same orientation,
+      ;; the desired isometry is a translation
+      m0     (N (gr/join A0 P))               ; m0 = line through points A0,P
       m1     (N (gr/join A1 P))               ; m1 = line through points A1,P
       a      (gr/join A0 A1)                  ; a = line through points A0,A1
       Am     (N (gr/add A0 A1))               ; midpoint of segment A0,A1 (since Ai is normalized)
