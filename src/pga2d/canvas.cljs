@@ -126,10 +126,11 @@
 
        :draw-point
        (fn [p r]
-         (let [[x y] (normalized p)]
-           (.beginPath ctx)
-           (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
-           (.fill ctx)))
+         (if (not= (p 2) 0)
+           (let [[x y] (normalized p)]
+             (.beginPath ctx)
+             (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
+             (.fill ctx))))
 
        :set-line-width
        (fn [t]
