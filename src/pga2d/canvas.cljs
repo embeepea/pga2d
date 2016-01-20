@@ -70,8 +70,7 @@
 (defn canvas
   ([ll ur] (canvas ll ur {}))
   ([ll ur options]
-   (let [defaults       {:preserve-aspect false
-                         :mouse-handler nil}
+   (let [defaults       {:preserve-aspect false}
          settings       (into defaults options)
          canvas-element (by-id "canvas")
          [w h]          (current-window-size)
@@ -90,26 +89,8 @@
                           (linear-interpolator (/ (+ h d) 2)  (/ (- h d)  2) (ll 1) (ur 1)))
          wll            [ (px 0) (py h) ]
          wur            [ (px w) (py 0) ]
-         mouse-state    (atom {:down false})
          ]
 
-     (when (:mouse-handler settings)
-       (events/listen
-        canvas-element events/EventType.MOUSEUP
-        (fn [event] (swap! mouse-state assoc :down false :xy nil)))
-       (events/listen
-        canvas-element events/EventType.MOUSEDOWN
-        (fn [event] (swap! mouse-state assoc :down true :base [(px (.-offsetX event)) (py (.-offsetY event))])))
-       (events/listen
-        canvas-element events/EventType.MOUSEMOVE
-        (fn [event] (let [xy  [(px (.-offsetX event)) (py (.-offsetY event))]]
-                      (if (@mouse-state :down)
-                        ((:mouse-handler settings) {:type :drag
-                                                    :d [(- (xy 0) ((@mouse-state :base) 0))
-                                                        (- (xy 1) ((@mouse-state :base) 1))]})
-                        ((:mouse-handler settings) {:type :move :xy xy})))))
-       )
-     
     (set! (.-width canvas-element) w)
     (set! (.-height canvas-element) h)
     (let [ctx (.getContext canvas-element "2d")]
@@ -131,6 +112,13 @@
              (.beginPath ctx)
              (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
              (.fill ctx))))
+
+       :draw-circle
+       (fn [p r]
+         (let [[x y] (normalized p)]
+           (.beginPath ctx)
+           (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
+           (.stroke ctx)))
 
        :set-line-width
        (fn [t]
@@ -156,6 +144,31 @@
            (.lineTo ctx (xp x1) (yp y1))
            (.stroke ctx)))
 
+       :install-mouse-handler
+       (fn [mouse-handler]
+         (let [mouse-state    (atom {:down false})]
+           (events/listen
+            canvas-element events/EventType.MOUSEUP
+            (fn [event]
+              (swap! mouse-state assoc :down false :xy nil)
+              (mouse-handler {:type :up :xy [(px (.-offsetX event)) (py (.-offsetY event))]})))
+           (events/listen
+            canvas-element events/EventType.MOUSEDOWN
+            (fn [event]
+              (let [xy [(px (.-offsetX event)) (py (.-offsetY event))]]
+                (swap! mouse-state assoc :down true :base xy)
+                (mouse-handler {:type :down :xy xy}))))
+           (events/listen
+            canvas-element events/EventType.MOUSEMOVE
+            (fn [event] (let [xy  [(px (.-offsetX event)) (py (.-offsetY event))]]
+                          (if (@mouse-state :down)
+                            (mouse-handler {:type :drag
+                                            :xy xy
+                                            :d [(- (xy 0) ((@mouse-state :base) 0))
+                                                (- (xy 1) ((@mouse-state :base) 1))]})
+                            (mouse-handler {:type :move :xy xy})))))))
+
+
        }
       )))
   )
@@ -167,7 +180,8 @@
 ;; draw a point
 (defmethod render 2 [cv g mv]
   (let [p (gr/point-from ((g :normalized) mv))]
-    ((cv :draw-point) p 5)))
+    ((cv :draw-point) p 5)
+    (when (mv :selected) ((cv :draw-circle) p 10))))
 
 ;; draw a line
 (defmethod render 1 [cv g mv]
@@ -182,7 +196,9 @@
     ([mv] (renderfunc mv {}))
     ([mv options]
      (when (:color options) ((cv :set-color) (:color options)))
-     (if (= (type mv) cljs.core/PersistentArrayMap)
+     (if (or (= (type mv) cljs.core/PersistentArrayMap)
+             (= (type mv) cljs.core/PersistentHashMap))
        (render cv g mv)
        (doall (map renderfunc mv))
        ))))
+

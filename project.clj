@@ -53,6 +53,22 @@
                            :optimizations :advanced
                            :pretty-print false}}
 
+               ;; lein cljsbuild once diagram1a
+               {:id "diagram1a"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/diagram1a.js"
+                           :main pga2d.diagram1a
+                           :optimizations :advanced
+                           :pretty-print false}}
+
+               ;; lein cljsbuild once diagram2a
+               {:id "diagram2a"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/diagram2a.js"
+                           :main pga2d.diagram2a
+                           :optimizations :advanced
+                           :pretty-print false}}
+
                ]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
