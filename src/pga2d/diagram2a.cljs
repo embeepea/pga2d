@@ -30,7 +30,7 @@
    :B0     {:mv (gr/point -0.2 -1.0  1) :color "#666666"}
    :B1     {:mv (gr/point  0.2 -1.0  1) :color "#666666"}}
 
-  ;; The diagram packages takes care of rendering the draggable points above, and
+  ;; The diagram package takes care of rendering the draggable points above, and
   ;; the following function will be called to render anything else.
   :draw
   (fn [g cv render dragable]
