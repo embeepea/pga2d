@@ -26,9 +26,9 @@
   ;; be a map with keys :mv (a point multivector), and :color.
   :dragables
   {:A0     {:mv (gr/point -1.0  1.0  1) :color "#ffffff"}
-   :A1     {:mv (gr/point  0.6  0.2  1) :color "#ffffff"}
-   :B0     {:mv (gr/point -0.2 -1.0  1) :color "#666666"}
-   :B1     {:mv (gr/point  0.2 -1.0  1) :color "#666666"}}
+   :A1     {:mv (gr/point 0.6  0.2  1) :color "#ffffff"}
+   :B0     {:mv (gr/point -0.6 0.0  1) :color "#666666"}
+   :B1     {:mv (gr/point  1.0 1.2  1) :color "#666666"} }
 
   ;; The diagram package takes care of rendering the draggable points above, and
   ;; the following function will be called to render anything else.
@@ -39,8 +39,8 @@
           A1     (dragable :A1)
           B0     (dragable :B0)
           B1     (dragable :B1)
-          m0     (N (gr/join B0 A0))              ;; m0 = line through points P,A0
-          m1     (N (gr/join A1 B1))              ;; m1 = line through points A1,P
+          m0     (N (gr/join A0 B0))              ;; m0 = line through points A0,B0
+          m1     (N (gr/join A1 B1))              ;; m1 = line through points A1,B1
           a      (gr/join A0 A1)                  ;; a = line through points A0,A1
           Am     (N (gr/add A0 A1))               ;; midpoint of segment A0,A1 (since Ai is normalized)
           r      (N (gr/grade ((g :gp) Am a) 1))  ;; perp bisector of segment A0,A1
