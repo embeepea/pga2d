@@ -30,6 +30,21 @@
 
 (def ega (cf/ga 0))
 
+(def gs 10.0)
+
+(defn two-far-points-on-line [line-mv [wll wur]]
+  (let [[a b c] (gr/line-from line-mv)    ;; line equation
+        d2      (+ (* a a) (* b b))       ;; norm squared
+        k       (- (/ c d2))              ;; factor to find nearest point to origin
+        near0   [(* a k) (* b k) 1]     ;; nearest point to origin
+        vec     [(- (* gs b)) (* gs a) 0]
+        p0      (map + near0 vec)
+        p1      (map - near0 vec)
+        ]
+    [(gr/point p0) (gr/point p1)]
+    )
+  )
+
 (defn line-rectangle-intersection [line [[xMin yMin] [xMax yMax]]]
   (let [verts   [(gr/point xMin yMin 1)    ;; lower left               e3
                  (gr/point xMax yMin 1)    ;; lower right           v4    v3
@@ -98,7 +113,9 @@
        :clear
        (fn [color]
          (set! (.-fillStyle ctx) color)
-         (.fillRect ctx 0 0 w h))
+         (.fillRect ctx 0 0 w h)
+         ;(.clip ctx )
+         )
 
        :set-color
        (fn [color]
@@ -126,7 +143,8 @@
 
        :draw-line
        (fn [line-mv]
-         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [wll wur]))]
+;;         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [wll wur]))]
+         (let [ps (map #(gr/point-from %) (two-far-points-on-line line-mv [wll wur]))]
            (when (= (count ps) 2)
              (let [[x0 y0] (normalized (first ps))
                    [x1 y1] (normalized (second ps))]

@@ -17,6 +17,7 @@
   {:coords
    [[-1.5 -1.5] [1.5 1.5]]
 
+
    ;; The user will be able to drag these points.  Each draggable should
    ;; have a key which serves as its id; the value for that key should
    ;; be a map with keys :mv (a point multivector), and :color.
@@ -31,9 +32,9 @@
    :draw
    (fn [g cv render dragable]
      (let [N      (g :normalized)      ;; N = shorthand for :normalized function in g
-           n      720.0
+           n      720
            delta  (/ 1.0 n)
-           s      38.0
+           s      341.0
            ]
        ((cv :clear) "#ffffff")
        ((cv :set-line-width) .25)
@@ -46,7 +47,8 @@
                p1    (gr/point (Math.cos angle1) (Math.sin angle1) 1)
                m     (gr/join p0 p1)]
 ;;           (println "m = " m)
-           (render m {:color "#000000"})
+          (println "t = " t)
+          (render m {:color "#000000"})
            ))
 
        )

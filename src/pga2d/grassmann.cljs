@@ -48,8 +48,10 @@
   )
 
 ; Initialize pure k-vectors for different k
-(defn point [x y z]
-  (multivector 0 [0 0 0] [x y z] 0))
+(defn point
+  ([v] (multivector 0 [0 0 0] v 0))
+  ([x y z] (multivector 0 [0 0 0] [x y z] 0))
+  )
 
 (defn line [a b c]
   (multivector 0 [a b c] [0 0 0] 0))
