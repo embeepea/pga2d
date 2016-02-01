@@ -21,15 +21,15 @@ pga2d.test.L3 = pga2d.grassmann.line.call(null,(1),(0),(-3));
 pga2d.test.p12 = pga2d.grassmann.grade.call(null,pga2d.test.g.call(null,new cljs.core.Keyword(null,"gp","gp",-1879258781)).call(null,pga2d.test.L1,pga2d.test.L2),(2));
 pga2d.test.p13 = pga2d.grassmann.grade.call(null,pga2d.test.g.call(null,new cljs.core.Keyword(null,"gp","gp",-1879258781)).call(null,pga2d.test.L1,pga2d.test.L3),(2));
 pga2d.test.ans = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [pga2d.test.g.call(null,new cljs.core.Keyword(null,"norm-squared","norm-squared",-2019462250)).call(null,pga2d.test.p12),pga2d.test.g.call(null,new cljs.core.Keyword(null,"norm-squared","norm-squared",-2019462250)).call(null,pga2d.test.p13)], null);
-pga2d.test.line_line_intersection = (function pga2d$test$line_line_intersection(p__25513,p__25514){
-var vec__25517 = p__25513;
-var a0 = cljs.core.nth.call(null,vec__25517,(0),null);
-var b0 = cljs.core.nth.call(null,vec__25517,(1),null);
-var c0 = cljs.core.nth.call(null,vec__25517,(2),null);
-var vec__25518 = p__25514;
-var a1 = cljs.core.nth.call(null,vec__25518,(0),null);
-var b1 = cljs.core.nth.call(null,vec__25518,(1),null);
-var c1 = cljs.core.nth.call(null,vec__25518,(2),null);
+pga2d.test.line_line_intersection = (function pga2d$test$line_line_intersection(p__5949,p__5950){
+var vec__5953 = p__5949;
+var a0 = cljs.core.nth.call(null,vec__5953,(0),null);
+var b0 = cljs.core.nth.call(null,vec__5953,(1),null);
+var c0 = cljs.core.nth.call(null,vec__5953,(2),null);
+var vec__5954 = p__5950;
+var a1 = cljs.core.nth.call(null,vec__5954,(0),null);
+var b1 = cljs.core.nth.call(null,vec__5954,(1),null);
+var c1 = cljs.core.nth.call(null,vec__5954,(2),null);
 var l1 = pga2d.grassmann.line.call(null,a0,b0,c0);
 var l2 = pga2d.grassmann.line.call(null,a1,b1,c1);
 var nl1 = pga2d.test.g.call(null,new cljs.core.Keyword(null,"normalized","normalized",-1887621663)).call(null,l1);
@@ -43,29 +43,29 @@ return pga2d.test.g.call(null,new cljs.core.Keyword(null,"norm","norm",-14401244
 return pga2d.grassmann.point_from.call(null,pga2d.test.g.call(null,new cljs.core.Keyword(null,"normalized","normalized",-1887621663)).call(null,p2));
 }
 });
-pga2d.test.line_line_angle = (function pga2d$test$line_line_angle(p__25519,p__25520){
-var vec__25523 = p__25519;
-var a0 = cljs.core.nth.call(null,vec__25523,(0),null);
-var b0 = cljs.core.nth.call(null,vec__25523,(1),null);
-var c0 = cljs.core.nth.call(null,vec__25523,(2),null);
-var vec__25524 = p__25520;
-var a1 = cljs.core.nth.call(null,vec__25524,(0),null);
-var b1 = cljs.core.nth.call(null,vec__25524,(1),null);
-var c1 = cljs.core.nth.call(null,vec__25524,(2),null);
+pga2d.test.line_line_angle = (function pga2d$test$line_line_angle(p__5955,p__5956){
+var vec__5959 = p__5955;
+var a0 = cljs.core.nth.call(null,vec__5959,(0),null);
+var b0 = cljs.core.nth.call(null,vec__5959,(1),null);
+var c0 = cljs.core.nth.call(null,vec__5959,(2),null);
+var vec__5960 = p__5956;
+var a1 = cljs.core.nth.call(null,vec__5960,(0),null);
+var b1 = cljs.core.nth.call(null,vec__5960,(1),null);
+var c1 = cljs.core.nth.call(null,vec__5960,(2),null);
 return pga2d.test.g.call(null,new cljs.core.Keyword(null,"measure-of-rotor","measure-of-rotor",-1061608855)).call(null,pga2d.test.g.call(null,new cljs.core.Keyword(null,"gp","gp",-1879258781)).call(null,pga2d.grassmann.line.call(null,a0,b0,c0),pga2d.grassmann.line.call(null,a1,b1,c1)));
 });
 if(typeof pga2d.test.render !== 'undefined'){
 } else {
-pga2d.test.render = (function (){var method_table__17765__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var prefer_table__17766__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var method_cache__17767__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var cached_hierarchy__17768__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var hierarchy__17769__auto__ = cljs.core.get.call(null,cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword(null,"hierarchy","hierarchy",-1053470341),cljs.core.get_global_hierarchy.call(null));
-return (new cljs.core.MultiFn(cljs.core.symbol.call(null,"pga2d.test","render"),((function (method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__,hierarchy__17769__auto__){
+pga2d.test.render = (function (){var method_table__5581__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var prefer_table__5582__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var method_cache__5583__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var cached_hierarchy__5584__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var hierarchy__5585__auto__ = cljs.core.get.call(null,cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword(null,"hierarchy","hierarchy",-1053470341),cljs.core.get_global_hierarchy.call(null));
+return (new cljs.core.MultiFn(cljs.core.symbol.call(null,"pga2d.test","render"),((function (method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__,hierarchy__5585__auto__){
 return (function (cv,g,mv){
 return mv.call(null,new cljs.core.Keyword(null,"k","k",-2146297393));
-});})(method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__,hierarchy__17769__auto__))
-,new cljs.core.Keyword(null,"default","default",-1987822328),hierarchy__17769__auto__,method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__));
+});})(method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__,hierarchy__5585__auto__))
+,new cljs.core.Keyword(null,"default","default",-1987822328),hierarchy__5585__auto__,method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__));
 })();
 }
 cljs.core._add_method.call(null,pga2d.test.render,(2),(function (cv,g,mv){
@@ -75,22 +75,22 @@ return cv.call(null,new cljs.core.Keyword(null,"draw-point","draw-point",1918226
 cljs.core._add_method.call(null,pga2d.test.render,(1),(function (cv,g,mv){
 return cv.call(null,new cljs.core.Keyword(null,"draw-line","draw-line",1278325815)).call(null,mv);
 }));
-var cv_25525 = pga2d.canvas.canvas.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(-1),(-1)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(1),(1)], null));
-cv_25525.call(null,new cljs.core.Keyword(null,"clear","clear",1877104959)).call(null,"#000000");
+var cv_5961 = pga2d.canvas.canvas.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(-1),(-1)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(1),(1)], null));
+cv_5961.call(null,new cljs.core.Keyword(null,"clear","clear",1877104959)).call(null,"#000000");
 
-cv_25525.call(null,new cljs.core.Keyword(null,"set-color","set-color",-1342268539)).call(null,"#ffffff");
+cv_5961.call(null,new cljs.core.Keyword(null,"set-color","set-color",-1342268539)).call(null,"#ffffff");
 
-var g_25526 = pga2d.clifford.ga.call(null,(0));
-var p0_25527 = pga2d.grassmann.point.call(null,-1.0,(0),(1));
-var p1_25528 = pga2d.grassmann.point.call(null,0.5,0.5,(1));
-var l01_25529 = pga2d.grassmann.join.call(null,p0_25527,p1_25528);
-pga2d.test.render.call(null,cv_25525,g_25526,p0_25527);
+var g_5962 = pga2d.clifford.ga.call(null,(0));
+var p0_5963 = pga2d.grassmann.point.call(null,-1.0,(0),(1));
+var p1_5964 = pga2d.grassmann.point.call(null,0.5,0.5,(1));
+var l01_5965 = pga2d.grassmann.join.call(null,p0_5963,p1_5964);
+pga2d.test.render.call(null,cv_5961,g_5962,p0_5963);
 
-pga2d.test.render.call(null,cv_25525,g_25526,p1_25528);
+pga2d.test.render.call(null,cv_5961,g_5962,p1_5964);
 
-cv_25525.call(null,new cljs.core.Keyword(null,"set-color","set-color",-1342268539)).call(null,"#ffff00");
+cv_5961.call(null,new cljs.core.Keyword(null,"set-color","set-color",-1342268539)).call(null,"#ffff00");
 
-pga2d.test.render.call(null,cv_25525,g_25526,l01_25529);
+pga2d.test.render.call(null,cv_5961,g_5962,l01_5965);
 pga2d.test.compareGP = (function (){var l0 = pga2d.grassmann.line.call(null,(1),(0),(0));
 var l1 = pga2d.grassmann.line.call(null,(1),(0),(-3));
 var l2 = pga2d.grassmann.line.call(null,(0),(1),(0));
@@ -102,4 +102,4 @@ return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMP
 })();
 cljs.core.println.call(null,"test");
 
-//# sourceMappingURL=test.js.map?rel=1453218277390
+//# sourceMappingURL=test.js.map?rel=1454304294581

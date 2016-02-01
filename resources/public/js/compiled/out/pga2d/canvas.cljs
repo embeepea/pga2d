@@ -30,6 +30,24 @@
 
 (def ega (cf/ga 0))
 
+(def global-scale 10.0)
+
+; a function to quickly generate two points on a given line
+; arbitrarily far away ("far" is controlled by global scale gs above
+;
+(defn two-far-points-on-line [line-mv [wll wur] gs]
+  (let [[a b c] (gr/line-from line-mv)    ;; line equation
+        d2      (+ (* a a) (* b b))       ;; norm squared
+        k       (- (/ c d2))              ;; factor to find nearest point to origin
+        near0   [(* a k) (* b k) 1]     ;; nearest point to origin
+        vec     [(- (* gs b)) (* gs a) 0] ;; direction vector of line of length gs
+        p0      (map + near0 vec)         ;; move near point by vec
+        p1      (map - near0 vec)         ;; move near point by -vec
+        ]
+    [(gr/point p0) (gr/point p1)]         ;; two points as multivectors
+    )
+  )
+
 (defn line-rectangle-intersection [line [[xMin yMin] [xMax yMax]]]
   (let [verts   [(gr/point xMin yMin 1)    ;; lower left               e3
                  (gr/point xMax yMin 1)    ;; lower right           v4    v3
@@ -70,8 +88,7 @@
 (defn canvas
   ([ll ur] (canvas ll ur {}))
   ([ll ur options]
-   (let [defaults       {:preserve-aspect false
-                         :mouse-handler nil}
+   (let [defaults       {:preserve-aspect false}
          settings       (into defaults options)
          canvas-element (by-id "canvas")
          [w h]          (current-window-size)
@@ -90,26 +107,8 @@
                           (linear-interpolator (/ (+ h d) 2)  (/ (- h d)  2) (ll 1) (ur 1)))
          wll            [ (px 0) (py h) ]
          wur            [ (px w) (py 0) ]
-         mouse-state    (atom {:down false})
          ]
 
-     (when (:mouse-handler settings)
-       (events/listen
-        canvas-element events/EventType.MOUSEUP
-        (fn [event] (swap! mouse-state assoc :down false :xy nil)))
-       (events/listen
-        canvas-element events/EventType.MOUSEDOWN
-        (fn [event] (swap! mouse-state assoc :down true :base [(px (.-offsetX event)) (py (.-offsetY event))])))
-       (events/listen
-        canvas-element events/EventType.MOUSEMOVE
-        (fn [event] (let [xy  [(px (.-offsetX event)) (py (.-offsetY event))]]
-                      (if (@mouse-state :down)
-                        ((:mouse-handler settings) {:type :drag
-                                                    :d [(- (xy 0) ((@mouse-state :base) 0))
-                                                        (- (xy 1) ((@mouse-state :base) 1))]})
-                        ((:mouse-handler settings) {:type :move :xy xy})))))
-       )
-     
     (set! (.-width canvas-element) w)
     (set! (.-height canvas-element) h)
     (let [ctx (.getContext canvas-element "2d")]
@@ -117,7 +116,9 @@
        :clear
        (fn [color]
          (set! (.-fillStyle ctx) color)
-         (.fillRect ctx 0 0 w h))
+         (.fillRect ctx 0 0 w h)
+         ;(.clip ctx )
+         )
 
        :set-color
        (fn [color]
@@ -126,10 +127,18 @@
 
        :draw-point
        (fn [p r]
+         (if (not= (p 2) 0)
+           (let [[x y] (normalized p)]
+             (.beginPath ctx)
+             (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
+             (.fill ctx))))
+
+       :draw-circle
+       (fn [p r]
          (let [[x y] (normalized p)]
            (.beginPath ctx)
            (.arc ctx (xp x) (yp y) r 0 (* 2 js/Math.PI))
-           (.fill ctx)))
+           (.stroke ctx)))
 
        :set-line-width
        (fn [t]
@@ -137,7 +146,8 @@
 
        :draw-line
        (fn [line-mv]
-         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [wll wur]))]
+;;         (let [ps (map #(gr/point-from %) (line-rectangle-intersection line-mv [wll wur]))]
+         (let [ps (map #(gr/point-from %) (two-far-points-on-line line-mv [wll wur] global-scale))]
            (when (= (count ps) 2)
              (let [[x0 y0] (normalized (first ps))
                    [x1 y1] (normalized (second ps))]
@@ -155,6 +165,31 @@
            (.lineTo ctx (xp x1) (yp y1))
            (.stroke ctx)))
 
+       :install-mouse-handler
+       (fn [mouse-handler]
+         (let [mouse-state    (atom {:down false})]
+           (events/listen
+            canvas-element events/EventType.MOUSEUP
+            (fn [event]
+              (swap! mouse-state assoc :down false :xy nil)
+              (mouse-handler {:type :up :xy [(px (.-offsetX event)) (py (.-offsetY event))]})))
+           (events/listen
+            canvas-element events/EventType.MOUSEDOWN
+            (fn [event]
+              (let [xy [(px (.-offsetX event)) (py (.-offsetY event))]]
+                (swap! mouse-state assoc :down true :base xy)
+                (mouse-handler {:type :down :xy xy}))))
+           (events/listen
+            canvas-element events/EventType.MOUSEMOVE
+            (fn [event] (let [xy  [(px (.-offsetX event)) (py (.-offsetY event))]]
+                          (if (@mouse-state :down)
+                            (mouse-handler {:type :drag
+                                            :xy xy
+                                            :d [(- (xy 0) ((@mouse-state :base) 0))
+                                                (- (xy 1) ((@mouse-state :base) 1))]})
+                            (mouse-handler {:type :move :xy xy})))))))
+
+
        }
       )))
   )
@@ -166,7 +201,8 @@
 ;; draw a point
 (defmethod render 2 [cv g mv]
   (let [p (gr/point-from ((g :normalized) mv))]
-    ((cv :draw-point) p 5)))
+    ((cv :draw-point) p 5)
+    (when (mv :selected) ((cv :draw-circle) p 10))))
 
 ;; draw a line
 (defmethod render 1 [cv g mv]
@@ -181,7 +217,9 @@
     ([mv] (renderfunc mv {}))
     ([mv options]
      (when (:color options) ((cv :set-color) (:color options)))
-     (if (= (type mv) cljs.core/PersistentArrayMap)
+     (if (or (= (type mv) cljs.core/PersistentArrayMap)
+             (= (type mv) cljs.core/PersistentHashMap))
        (render cv g mv)
        (doall (map renderfunc mv))
        ))))
+

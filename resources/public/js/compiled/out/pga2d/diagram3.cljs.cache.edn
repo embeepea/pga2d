@@ -1,0 +1,2 @@
+;; Analyzed by ClojureScript 1.7.170
+{:name pga2d.diagram3, :doc nil, :excludes #{}, :use-macros nil, :require-macros nil, :uses nil, :requires {gr pga2d.grassmann, pga2d.grassmann pga2d.grassmann, cf pga2d.clifford, pga2d.clifford pga2d.clifford, c pga2d.canvas, pga2d.canvas pga2d.canvas, d pga2d.diagram, pga2d.diagram pga2d.diagram}, :imports nil, :cljs.analyzer/constants {:seen #{:normalized :color :coords :set-line-width :n :s :inputs :draw :clear}, :order [:coords :inputs :draw :n :s :normalized :clear :set-line-width :color]}}

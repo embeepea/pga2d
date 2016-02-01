@@ -19,11 +19,11 @@ return (((x - a) * f) + A);
 });
 ;})(f))
 });
-pga2d.canvas.normalized = (function pga2d$canvas$normalized(p__25481){
-var vec__25483 = p__25481;
-var x = cljs.core.nth.call(null,vec__25483,(0),null);
-var y = cljs.core.nth.call(null,vec__25483,(1),null);
-var z = cljs.core.nth.call(null,vec__25483,(2),null);
+pga2d.canvas.normalized = (function pga2d$canvas$normalized(p__5911){
+var vec__5913 = p__5911;
+var x = cljs.core.nth.call(null,vec__5913,(0),null);
+var y = cljs.core.nth.call(null,vec__5913,(1),null);
+var z = cljs.core.nth.call(null,vec__5913,(2),null);
 if(cljs.core._EQ_.call(null,z,(0))){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,y], null);
 } else {
@@ -41,66 +41,83 @@ return cljs.core.take.call(null,n,s);
 }),null,null)));
 });
 pga2d.canvas.indices = (function pga2d$canvas$indices(pred,coll){
-return cljs.core.keep_indexed.call(null,(function (p1__25485_SHARP_,p2__25484_SHARP_){
-if(cljs.core.truth_(pred.call(null,p2__25484_SHARP_))){
-return p1__25485_SHARP_;
+return cljs.core.keep_indexed.call(null,(function (p1__5915_SHARP_,p2__5914_SHARP_){
+if(cljs.core.truth_(pred.call(null,p2__5914_SHARP_))){
+return p1__5915_SHARP_;
 } else {
 return null;
 }
 }),coll);
 });
 pga2d.canvas.ega = pga2d.clifford.ga.call(null,(0));
-pga2d.canvas.line_rectangle_intersection = (function pga2d$canvas$line_rectangle_intersection(line,p__25490){
-var vec__25494 = p__25490;
-var vec__25495 = cljs.core.nth.call(null,vec__25494,(0),null);
-var xMin = cljs.core.nth.call(null,vec__25495,(0),null);
-var yMin = cljs.core.nth.call(null,vec__25495,(1),null);
-var vec__25496 = cljs.core.nth.call(null,vec__25494,(1),null);
-var xMax = cljs.core.nth.call(null,vec__25496,(0),null);
-var yMax = cljs.core.nth.call(null,vec__25496,(1),null);
+pga2d.canvas.global_scale = 10.0;
+pga2d.canvas.two_far_points_on_line = (function pga2d$canvas$two_far_points_on_line(line_mv,p__5916,gs){
+var vec__5919 = p__5916;
+var wll = cljs.core.nth.call(null,vec__5919,(0),null);
+var wur = cljs.core.nth.call(null,vec__5919,(1),null);
+var vec__5920 = pga2d.grassmann.line_from.call(null,line_mv);
+var a = cljs.core.nth.call(null,vec__5920,(0),null);
+var b = cljs.core.nth.call(null,vec__5920,(1),null);
+var c = cljs.core.nth.call(null,vec__5920,(2),null);
+var d2 = ((a * a) + (b * b));
+var k = (- (c / d2));
+var near0 = new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(a * k),(b * k),(1)], null);
+var vec = new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(- (gs * b)),(gs * a),(0)], null);
+var p0 = cljs.core.map.call(null,cljs.core._PLUS_,near0,vec);
+var p1 = cljs.core.map.call(null,cljs.core._,near0,vec);
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [pga2d.grassmann.point.call(null,p0),pga2d.grassmann.point.call(null,p1)], null);
+});
+pga2d.canvas.line_rectangle_intersection = (function pga2d$canvas$line_rectangle_intersection(line,p__5925){
+var vec__5929 = p__5925;
+var vec__5930 = cljs.core.nth.call(null,vec__5929,(0),null);
+var xMin = cljs.core.nth.call(null,vec__5930,(0),null);
+var yMin = cljs.core.nth.call(null,vec__5930,(1),null);
+var vec__5931 = cljs.core.nth.call(null,vec__5929,(1),null);
+var xMax = cljs.core.nth.call(null,vec__5931,(0),null);
+var yMax = cljs.core.nth.call(null,vec__5931,(1),null);
 var verts = new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [pga2d.grassmann.point.call(null,xMin,yMin,(1)),pga2d.grassmann.point.call(null,xMax,yMin,(1)),pga2d.grassmann.point.call(null,xMax,yMax,(1)),pga2d.grassmann.point.call(null,xMin,yMax,(1))], null);
 var edges = new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [pga2d.grassmann.line.call(null,(0),(1),(- yMin)),pga2d.grassmann.line.call(null,(1),(0),(- xMax)),pga2d.grassmann.line.call(null,(0),(1),(- yMax)),pga2d.grassmann.line.call(null,(1),(0),(- xMin))], null);
-var distances = cljs.core.map.call(null,((function (verts,edges,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax){
-return (function (p1__25486_SHARP_){
-return (1.0E-6 + pga2d.grassmann.pseudoscalar_from.call(null,pga2d.grassmann.wedge.call(null,line,p1__25486_SHARP_)));
-});})(verts,edges,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax))
+var distances = cljs.core.map.call(null,((function (verts,edges,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax){
+return (function (p1__5921_SHARP_){
+return (1.0E-6 + pga2d.grassmann.pseudoscalar_from.call(null,pga2d.grassmann.wedge.call(null,line,p1__5921_SHARP_)));
+});})(verts,edges,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax))
 ,verts);
 var sign_changes = cljs.core.map.call(null,cljs.core._STAR_,distances,pga2d.canvas.rotate.call(null,(1),distances));
-var edge_indices = pga2d.canvas.indices.call(null,((function (verts,edges,distances,sign_changes,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax){
-return (function (p1__25487_SHARP_){
-return (p1__25487_SHARP_ < (0));
-});})(verts,edges,distances,sign_changes,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax))
+var edge_indices = pga2d.canvas.indices.call(null,((function (verts,edges,distances,sign_changes,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax){
+return (function (p1__5922_SHARP_){
+return (p1__5922_SHARP_ < (0));
+});})(verts,edges,distances,sign_changes,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax))
 ,sign_changes);
-var intersecting_edges = cljs.core.map.call(null,((function (verts,edges,distances,sign_changes,edge_indices,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax){
-return (function (p1__25488_SHARP_){
-return cljs.core.get.call(null,edges,p1__25488_SHARP_);
-});})(verts,edges,distances,sign_changes,edge_indices,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax))
+var intersecting_edges = cljs.core.map.call(null,((function (verts,edges,distances,sign_changes,edge_indices,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax){
+return (function (p1__5923_SHARP_){
+return cljs.core.get.call(null,edges,p1__5923_SHARP_);
+});})(verts,edges,distances,sign_changes,edge_indices,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax))
 ,edge_indices);
-var intersection_points = cljs.core.map.call(null,((function (verts,edges,distances,sign_changes,edge_indices,intersecting_edges,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax){
-return (function (p1__25489_SHARP_){
-return pga2d.canvas.ega.call(null,new cljs.core.Keyword(null,"normalized","normalized",-1887621663)).call(null,pga2d.grassmann.wedge.call(null,p1__25489_SHARP_,line));
-});})(verts,edges,distances,sign_changes,edge_indices,intersecting_edges,vec__25494,vec__25495,xMin,yMin,vec__25496,xMax,yMax))
+var intersection_points = cljs.core.map.call(null,((function (verts,edges,distances,sign_changes,edge_indices,intersecting_edges,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax){
+return (function (p1__5924_SHARP_){
+return pga2d.canvas.ega.call(null,new cljs.core.Keyword(null,"normalized","normalized",-1887621663)).call(null,pga2d.grassmann.wedge.call(null,p1__5924_SHARP_,line));
+});})(verts,edges,distances,sign_changes,edge_indices,intersecting_edges,vec__5929,vec__5930,xMin,yMin,vec__5931,xMax,yMax))
 ,intersecting_edges);
 return intersection_points;
 });
 pga2d.canvas.canvas = (function pga2d$canvas$canvas(var_args){
-var args25498 = [];
-var len__17910__auto___25507 = arguments.length;
-var i__17911__auto___25508 = (0);
+var args5933 = [];
+var len__5726__auto___5943 = arguments.length;
+var i__5727__auto___5944 = (0);
 while(true){
-if((i__17911__auto___25508 < len__17910__auto___25507)){
-args25498.push((arguments[i__17911__auto___25508]));
+if((i__5727__auto___5944 < len__5726__auto___5943)){
+args5933.push((arguments[i__5727__auto___5944]));
 
-var G__25509 = (i__17911__auto___25508 + (1));
-i__17911__auto___25508 = G__25509;
+var G__5945 = (i__5727__auto___5944 + (1));
+i__5727__auto___5944 = G__5945;
 continue;
 } else {
 }
 break;
 }
 
-var G__25500 = args25498.length;
-switch (G__25500) {
+var G__5935 = args5933.length;
+switch (G__5935) {
 case 2:
 return pga2d.canvas.canvas.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -110,7 +127,7 @@ return pga2d.canvas.canvas.cljs$core$IFn$_invoke$arity$3((arguments[(0)]),(argum
 
 break;
 default:
-throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args25498.length)].join('')));
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args5933.length)].join('')));
 
 }
 });
@@ -120,15 +137,15 @@ return pga2d.canvas.canvas.call(null,ll,ur,cljs.core.PersistentArrayMap.EMPTY);
 });
 
 pga2d.canvas.canvas.cljs$core$IFn$_invoke$arity$3 = (function (ll,ur,options){
-var defaults = new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"preserve-aspect","preserve-aspect",885939822),false,new cljs.core.Keyword(null,"mouse-handler","mouse-handler",-1958953119),null], null);
+var defaults = new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"preserve-aspect","preserve-aspect",885939822),false], null);
 var settings = cljs.core.into.call(null,defaults,options);
 var canvas_element = pga2d.canvas.by_id.call(null,"canvas");
-var vec__25501 = pga2d.canvas.current_window_size.call(null);
-var w = cljs.core.nth.call(null,vec__25501,(0),null);
-var h = cljs.core.nth.call(null,vec__25501,(1),null);
-var d = (function (){var x__17190__auto__ = w;
-var y__17191__auto__ = h;
-return ((x__17190__auto__ < y__17191__auto__) ? x__17190__auto__ : y__17191__auto__);
+var vec__5936 = pga2d.canvas.current_window_size.call(null);
+var w = cljs.core.nth.call(null,vec__5936,(0),null);
+var h = cljs.core.nth.call(null,vec__5936,(1),null);
+var d = (function (){var x__5006__auto__ = w;
+var y__5007__auto__ = h;
+return ((x__5006__auto__ < y__5007__auto__) ? x__5006__auto__ : y__5007__auto__);
 })();
 var xp = (cljs.core.truth_(new cljs.core.Keyword(null,"preserve-aspect","preserve-aspect",885939822).cljs$core$IFn$_invoke$arity$1(settings))?pga2d.canvas.linear_interpolator.call(null,ll.call(null,(0)),ur.call(null,(0)),(0),w):pga2d.canvas.linear_interpolator.call(null,ll.call(null,(0)),ur.call(null,(0)),((w - d) / (2)),((w + d) / (2))));
 var yp = (cljs.core.truth_(new cljs.core.Keyword(null,"preserve-aspect","preserve-aspect",885939822).cljs$core$IFn$_invoke$arity$1(settings))?pga2d.canvas.linear_interpolator.call(null,ll.call(null,(1)),ur.call(null,(1)),h,(0)):pga2d.canvas.linear_interpolator.call(null,ll.call(null,(1)),ur.call(null,(1)),((h + d) / (2)),((h - d) / (2))));
@@ -136,79 +153,67 @@ var px = (cljs.core.truth_(new cljs.core.Keyword(null,"preserve-aspect","preserv
 var py = (cljs.core.truth_(new cljs.core.Keyword(null,"preserve-aspect","preserve-aspect",885939822).cljs$core$IFn$_invoke$arity$1(settings))?pga2d.canvas.linear_interpolator.call(null,h,(0),ll.call(null,(1)),ur.call(null,(1))):pga2d.canvas.linear_interpolator.call(null,((h + d) / (2)),((h - d) / (2)),ll.call(null,(1)),ur.call(null,(1))));
 var wll = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,(0)),py.call(null,h)], null);
 var wur = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,w),py.call(null,(0))], null);
-var mouse_state = cljs.core.atom.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"down","down",1565245570),false], null));
-if(cljs.core.truth_(new cljs.core.Keyword(null,"mouse-handler","mouse-handler",-1958953119).cljs$core$IFn$_invoke$arity$1(settings))){
-goog.events.listen(canvas_element,goog.events.EventType.MOUSEUP,((function (defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
-return (function (event){
-return cljs.core.swap_BANG_.call(null,mouse_state,cljs.core.assoc,new cljs.core.Keyword(null,"down","down",1565245570),false,new cljs.core.Keyword(null,"xy","xy",-696978232),null);
-});})(defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-);
-
-goog.events.listen(canvas_element,goog.events.EventType.MOUSEDOWN,((function (defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
-return (function (event){
-return cljs.core.swap_BANG_.call(null,mouse_state,cljs.core.assoc,new cljs.core.Keyword(null,"down","down",1565245570),true,new cljs.core.Keyword(null,"base","base",185279322),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,event.offsetX),py.call(null,event.offsetY)], null));
-});})(defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-);
-
-goog.events.listen(canvas_element,goog.events.EventType.MOUSEMOVE,((function (defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
-return (function (event){
-var xy = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,event.offsetX),py.call(null,event.offsetY)], null);
-if(cljs.core.truth_(cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"down","down",1565245570)))){
-return new cljs.core.Keyword(null,"mouse-handler","mouse-handler",-1958953119).cljs$core$IFn$_invoke$arity$1(settings).call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"drag","drag",449951290),new cljs.core.Keyword(null,"d","d",1972142424),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(xy.call(null,(0)) - cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"base","base",185279322)).call(null,(0))),(xy.call(null,(1)) - cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"base","base",185279322)).call(null,(1)))], null)], null));
-} else {
-return new cljs.core.Keyword(null,"mouse-handler","mouse-handler",-1958953119).cljs$core$IFn$_invoke$arity$1(settings).call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"move","move",-2110884309),new cljs.core.Keyword(null,"xy","xy",-696978232),xy], null));
-}
-});})(defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-);
-} else {
-}
-
 canvas_element.width = w;
 
 canvas_element.height = h;
 
 var ctx = canvas_element.getContext("2d");
-return new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword(null,"clear","clear",1877104959),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+return new cljs.core.PersistentArrayMap(null, 8, [new cljs.core.Keyword(null,"clear","clear",1877104959),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (color){
 ctx.fillStyle = color;
 
 return ctx.fillRect((0),(0),w,h);
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,new cljs.core.Keyword(null,"set-color","set-color",-1342268539),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"set-color","set-color",-1342268539),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (color){
 ctx.strokeStyle = color;
 
 return ctx.fillStyle = color;
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,new cljs.core.Keyword(null,"draw-point","draw-point",1918226496),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"draw-point","draw-point",1918226496),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (p,r){
-var vec__25502 = pga2d.canvas.normalized.call(null,p);
-var x = cljs.core.nth.call(null,vec__25502,(0),null);
-var y = cljs.core.nth.call(null,vec__25502,(1),null);
+if(cljs.core.not_EQ_.call(null,p.call(null,(2)),(0))){
+var vec__5937 = pga2d.canvas.normalized.call(null,p);
+var x = cljs.core.nth.call(null,vec__5937,(0),null);
+var y = cljs.core.nth.call(null,vec__5937,(1),null);
 ctx.beginPath();
 
 ctx.arc(xp.call(null,x),yp.call(null,y),r,(0),((2) * Math.PI));
 
 return ctx.fill();
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,new cljs.core.Keyword(null,"set-line-width","set-line-width",-1126065560),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+} else {
+return null;
+}
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"draw-circle","draw-circle",1417064952),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (p,r){
+var vec__5938 = pga2d.canvas.normalized.call(null,p);
+var x = cljs.core.nth.call(null,vec__5938,(0),null);
+var y = cljs.core.nth.call(null,vec__5938,(1),null);
+ctx.beginPath();
+
+ctx.arc(xp.call(null,x),yp.call(null,y),r,(0),((2) * Math.PI));
+
+return ctx.stroke();
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"set-line-width","set-line-width",-1126065560),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (t){
 return ctx.lineWidth = t;
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,new cljs.core.Keyword(null,"draw-line","draw-line",1278325815),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"draw-line","draw-line",1278325815),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (line_mv){
-var ps = cljs.core.map.call(null,((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
-return (function (p1__25497_SHARP_){
-return pga2d.grassmann.point_from.call(null,p1__25497_SHARP_);
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,pga2d.canvas.line_rectangle_intersection.call(null,line_mv,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [wll,wur], null)));
+var ps = cljs.core.map.call(null,((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (p1__5932_SHARP_){
+return pga2d.grassmann.point_from.call(null,p1__5932_SHARP_);
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,pga2d.canvas.two_far_points_on_line.call(null,line_mv,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [wll,wur], null),pga2d.canvas.global_scale));
 if(cljs.core._EQ_.call(null,cljs.core.count.call(null,ps),(2))){
-var vec__25503 = pga2d.canvas.normalized.call(null,cljs.core.first.call(null,ps));
-var x0 = cljs.core.nth.call(null,vec__25503,(0),null);
-var y0 = cljs.core.nth.call(null,vec__25503,(1),null);
-var vec__25504 = pga2d.canvas.normalized.call(null,cljs.core.second.call(null,ps));
-var x1 = cljs.core.nth.call(null,vec__25504,(0),null);
-var y1 = cljs.core.nth.call(null,vec__25504,(1),null);
+var vec__5939 = pga2d.canvas.normalized.call(null,cljs.core.first.call(null,ps));
+var x0 = cljs.core.nth.call(null,vec__5939,(0),null);
+var y0 = cljs.core.nth.call(null,vec__5939,(1),null);
+var vec__5940 = pga2d.canvas.normalized.call(null,cljs.core.second.call(null,ps));
+var x1 = cljs.core.nth.call(null,vec__5940,(0),null);
+var y1 = cljs.core.nth.call(null,vec__5940,(1),null);
 ctx.beginPath();
 
 ctx.moveTo(xp.call(null,x0),yp.call(null,y0));
@@ -219,15 +224,15 @@ return ctx.stroke();
 } else {
 return null;
 }
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
-,new cljs.core.Keyword(null,"draw-segment","draw-segment",166522515),((function (ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state){
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"draw-segment","draw-segment",166522515),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
 return (function (p0,p1){
-var vec__25505 = pga2d.canvas.normalized.call(null,p0);
-var x0 = cljs.core.nth.call(null,vec__25505,(0),null);
-var y0 = cljs.core.nth.call(null,vec__25505,(1),null);
-var vec__25506 = pga2d.canvas.normalized.call(null,p1);
-var x1 = cljs.core.nth.call(null,vec__25506,(0),null);
-var y1 = cljs.core.nth.call(null,vec__25506,(1),null);
+var vec__5941 = pga2d.canvas.normalized.call(null,p0);
+var x0 = cljs.core.nth.call(null,vec__5941,(0),null);
+var y0 = cljs.core.nth.call(null,vec__5941,(1),null);
+var vec__5942 = pga2d.canvas.normalized.call(null,p1);
+var x1 = cljs.core.nth.call(null,vec__5942,(0),null);
+var y1 = cljs.core.nth.call(null,vec__5942,(1),null);
 ctx.beginPath();
 
 ctx.moveTo(xp.call(null,x0),yp.call(null,y0));
@@ -235,28 +240,65 @@ ctx.moveTo(xp.call(null,x0),yp.call(null,y0));
 ctx.lineTo(xp.call(null,x1),yp.call(null,y1));
 
 return ctx.stroke();
-});})(ctx,defaults,settings,canvas_element,vec__25501,w,h,d,xp,yp,px,py,wll,wur,mouse_state))
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+,new cljs.core.Keyword(null,"install-mouse-handler","install-mouse-handler",-53293504),((function (ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (mouse_handler){
+var mouse_state = cljs.core.atom.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"down","down",1565245570),false], null));
+goog.events.listen(canvas_element,goog.events.EventType.MOUSEUP,((function (mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (event){
+cljs.core.swap_BANG_.call(null,mouse_state,cljs.core.assoc,new cljs.core.Keyword(null,"down","down",1565245570),false,new cljs.core.Keyword(null,"xy","xy",-696978232),null);
+
+return mouse_handler.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"up","up",-269712113),new cljs.core.Keyword(null,"xy","xy",-696978232),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,event.offsetX),py.call(null,event.offsetY)], null)], null));
+});})(mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+);
+
+goog.events.listen(canvas_element,goog.events.EventType.MOUSEDOWN,((function (mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (event){
+var xy = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,event.offsetX),py.call(null,event.offsetY)], null);
+cljs.core.swap_BANG_.call(null,mouse_state,cljs.core.assoc,new cljs.core.Keyword(null,"down","down",1565245570),true,new cljs.core.Keyword(null,"base","base",185279322),xy);
+
+return mouse_handler.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"down","down",1565245570),new cljs.core.Keyword(null,"xy","xy",-696978232),xy], null));
+});})(mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+);
+
+return goog.events.listen(canvas_element,goog.events.EventType.MOUSEMOVE,((function (mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur){
+return (function (event){
+var xy = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [px.call(null,event.offsetX),py.call(null,event.offsetY)], null);
+if(cljs.core.truth_(cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"down","down",1565245570)))){
+return mouse_handler.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"drag","drag",449951290),new cljs.core.Keyword(null,"xy","xy",-696978232),xy,new cljs.core.Keyword(null,"d","d",1972142424),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(xy.call(null,(0)) - cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"base","base",185279322)).call(null,(0))),(xy.call(null,(1)) - cljs.core.deref.call(null,mouse_state).call(null,new cljs.core.Keyword(null,"base","base",185279322)).call(null,(1)))], null)], null));
+} else {
+return mouse_handler.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword(null,"move","move",-2110884309),new cljs.core.Keyword(null,"xy","xy",-696978232),xy], null));
+}
+});})(mouse_state,ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
+);
+});})(ctx,defaults,settings,canvas_element,vec__5936,w,h,d,xp,yp,px,py,wll,wur))
 ], null);
 });
 
 pga2d.canvas.canvas.cljs$lang$maxFixedArity = 3;
 if(typeof pga2d.canvas.render !== 'undefined'){
 } else {
-pga2d.canvas.render = (function (){var method_table__17765__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var prefer_table__17766__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var method_cache__17767__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var cached_hierarchy__17768__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
-var hierarchy__17769__auto__ = cljs.core.get.call(null,cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword(null,"hierarchy","hierarchy",-1053470341),cljs.core.get_global_hierarchy.call(null));
-return (new cljs.core.MultiFn(cljs.core.symbol.call(null,"pga2d.canvas","render"),((function (method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__,hierarchy__17769__auto__){
+pga2d.canvas.render = (function (){var method_table__5581__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var prefer_table__5582__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var method_cache__5583__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var cached_hierarchy__5584__auto__ = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+var hierarchy__5585__auto__ = cljs.core.get.call(null,cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword(null,"hierarchy","hierarchy",-1053470341),cljs.core.get_global_hierarchy.call(null));
+return (new cljs.core.MultiFn(cljs.core.symbol.call(null,"pga2d.canvas","render"),((function (method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__,hierarchy__5585__auto__){
 return (function (cv,g,mv){
 return mv.call(null,new cljs.core.Keyword(null,"k","k",-2146297393));
-});})(method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__,hierarchy__17769__auto__))
-,new cljs.core.Keyword(null,"default","default",-1987822328),hierarchy__17769__auto__,method_table__17765__auto__,prefer_table__17766__auto__,method_cache__17767__auto__,cached_hierarchy__17768__auto__));
+});})(method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__,hierarchy__5585__auto__))
+,new cljs.core.Keyword(null,"default","default",-1987822328),hierarchy__5585__auto__,method_table__5581__auto__,prefer_table__5582__auto__,method_cache__5583__auto__,cached_hierarchy__5584__auto__));
 })();
 }
 cljs.core._add_method.call(null,pga2d.canvas.render,(2),(function (cv,g,mv){
 var p = pga2d.grassmann.point_from.call(null,g.call(null,new cljs.core.Keyword(null,"normalized","normalized",-1887621663)).call(null,mv));
-return cv.call(null,new cljs.core.Keyword(null,"draw-point","draw-point",1918226496)).call(null,p,(5));
+cv.call(null,new cljs.core.Keyword(null,"draw-point","draw-point",1918226496)).call(null,p,(5));
+
+if(cljs.core.truth_(mv.call(null,new cljs.core.Keyword(null,"selected","selected",574897764)))){
+return cv.call(null,new cljs.core.Keyword(null,"draw-circle","draw-circle",1417064952)).call(null,p,(10));
+} else {
+return null;
+}
 }));
 cljs.core._add_method.call(null,pga2d.canvas.render,(1),(function (cv,g,mv){
 return cv.call(null,new cljs.core.Keyword(null,"draw-line","draw-line",1278325815)).call(null,mv);
@@ -276,7 +318,7 @@ cv.call(null,new cljs.core.Keyword(null,"set-color","set-color",-1342268539)).ca
 } else {
 }
 
-if(cljs.core._EQ_.call(null,cljs.core.type.call(null,mv),cljs.core.PersistentArrayMap)){
+if((cljs.core._EQ_.call(null,cljs.core.type.call(null,mv),cljs.core.PersistentArrayMap)) || (cljs.core._EQ_.call(null,cljs.core.type.call(null,mv),cljs.core.PersistentHashMap))){
 return pga2d.canvas.render.call(null,cv,g,mv);
 } else {
 return cljs.core.doall.call(null,cljs.core.map.call(null,pga2d$canvas$canvas_render_$_renderfunc,mv));
@@ -297,4 +339,4 @@ return pga2d$canvas$canvas_render_$_renderfunc;
 })()
 });
 
-//# sourceMappingURL=canvas.js.map?rel=1453218277313
+//# sourceMappingURL=canvas.js.map?rel=1454304294534

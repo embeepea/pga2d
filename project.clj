@@ -20,9 +20,9 @@
               [{:id "dev"
                 :source-paths ["src"]
 
-                :figwheel {:on-jsload "pga2d.diagram2/on-js-reload"}
+                :figwheel {:on-jsload "pga2d.diagram3/on-js-reload"}
 
-                :compiler {:main pga2d.diagram2
+                :compiler {:main pga2d.diagram3
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/pga2d.js"
                            :output-dir "resources/public/js/compiled/out"
@@ -34,7 +34,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/pga2d.js"
                            :main pga2d.test
-                           :optimizations :advanced
+;;                           :optimizations :advanced
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram1
@@ -42,7 +42,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1.js"
                            :main pga2d.diagram1
-                           :optimizations :advanced
+;;                           :optimizations :advanced
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2
@@ -50,7 +50,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2.js"
                            :main pga2d.diagram2
-                           :optimizations :advanced
+;;                           :optimizations :advanced
+                           :pretty-print false}}
+
+               {:id "diagram3"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/diagram3.js"
+                           :main pga2d.diagram3
+;;                           :optimizations :advanced
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram1a
@@ -58,7 +65,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1a.js"
                            :main pga2d.diagram1a
-                           :optimizations :advanced
+;;                           :optimizations :advanced
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2a
@@ -66,7 +73,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2a.js"
                            :main pga2d.diagram2a
-                           :optimizations :advanced
+;;                           :optimizations :advanced
                            :pretty-print false}}
 
                ]}
