@@ -17,6 +17,9 @@
   {:coords
    [[-1.5 -1.5] [1.5 1.5]]
 
+   :inputs
+   {:n 720.0
+    :s 38.0}
 
    ;; The user will be able to drag these points.  Each draggable should
    ;; have a key which serves as its id; the value for that key should
@@ -30,11 +33,11 @@
    ;; The diagram package takes care of rendering the draggable points above, and
    ;; the following function will be called to render anything else.
    :draw
-   (fn [g cv render dragable]
+   (fn [g cv render dragable input]
      (let [N      (g :normalized)      ;; N = shorthand for :normalized function in g
-           n      720
+           n      (input :n)
            delta  (/ 1.0 n)
-           s      341.0
+           s      (input :s)
            ]
        ((cv :clear) "#ffffff")
        ((cv :set-line-width) .25)
