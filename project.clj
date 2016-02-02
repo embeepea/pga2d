@@ -34,6 +34,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/pga2d.js"
                            :main pga2d.test
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
@@ -42,6 +43,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1.js"
                            :main pga2d.diagram1
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
@@ -50,6 +52,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2.js"
                            :main pga2d.diagram2
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
@@ -57,6 +60,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram3.js"
                            :main pga2d.diagram3
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
@@ -65,6 +69,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1a.js"
                            :main pga2d.diagram1a
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
@@ -73,6 +78,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2a.js"
                            :main pga2d.diagram2a
+                           :externs ["externs/jquery-1.9-externs.js"]
                            :optimizations :advanced
                            :pretty-print false}}
 
