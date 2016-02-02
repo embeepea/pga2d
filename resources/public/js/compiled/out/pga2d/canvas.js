@@ -339,4 +339,4 @@ return pga2d$canvas$canvas_render_$_renderfunc;
 })()
 });
 
-//# sourceMappingURL=canvas.js.map?rel=1454304294534
+//# sourceMappingURL=canvas.js.map?rel=1454386653757
