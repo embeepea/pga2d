@@ -40,6 +40,8 @@
                            :externs ["resources/public/lib/react-0.14.7/build/react.js"
                                      "resources/public/lib/react-0.14.7/build/react-dom.js"]
                            :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram1
@@ -53,6 +55,8 @@
                            :externs ["resources/public/lib/react-0.14.7/build/react.js"
                                      "resources/public/lib/react-0.14.7/build/react-dom.js"]
                            :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2
@@ -66,6 +70,8 @@
                            :externs ["resources/public/lib/react-0.14.7/build/react.js"
                                      "resources/public/lib/react-0.14.7/build/react-dom.js"]
                            :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                {:id "diagram3"
@@ -93,6 +99,8 @@
                            :externs ["resources/public/lib/react-0.14.7/build/react.js"
                                      "resources/public/lib/react-0.14.7/build/react-dom.js"]
                            :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2a
@@ -106,6 +114,8 @@
                            :externs ["resources/public/lib/react-0.14.7/build/react.js"
                                      "resources/public/lib/react-0.14.7/build/react-dom.js"]
                            :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ]}

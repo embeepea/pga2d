@@ -17,6 +17,9 @@
   {:coords
    [[-1.5 -1.5] [1.5 1.5]]
 
+   :source-link
+   {:color "#000000" :source "diagram3.cljs"}
+
    :input-style
    {:backgroundColor "#ffffff" :opacity 0.75}
 
