@@ -133,7 +133,13 @@ the latest changes, do the following:
    
 6. Fix any conflicts that arise from the previous step.
 
-7. Examine the current status of your local copy 
+7. Recompile everything: 
+   ```
+   lein clean
+   lein cljsbuild once
+   ```
+
+8. Examine the current status of your local copy 
    ```
    git status
    ```
@@ -142,17 +148,17 @@ the latest changes, do the following:
    in the master branch, but in some cases it might also mean running `rm` and/or `git rm` to remove
    the local copy of files that were deleted from the master branch.
    
-8. When you're sure that all the relevant changes are staged for commit, do the commit: 
+9. When you're sure that all the relevant changes are staged for commit, do the commit: 
    ```
    git commit -m 'merge master'
    ```
    
-9. Push the 'gh-pages' branch to origin: 
+10. Push the 'gh-pages' branch to origin: 
    ```
    git push origin gh-pages
    ```
    
-10. Switch your local copy back to the master branch for ongoing work.  Do NOT
+11. Switch your local copy back to the master branch for ongoing work.  Do NOT
     forget to do this.  If you stay on the gh-pages branch and make further
     edits in your local copy, you're likely to screw something up when you try to merge those
     edits into master!
