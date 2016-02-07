@@ -15,7 +15,8 @@
 
 (d/diagram
   {:coords
-   [[-1.5 -1.5] [1.5 1.5]]
+     [[-1.5 -1.5] [1.5 1.5]]
+;;   [[-0.15 -0.15] [0.15 0.15]]
 
    :source-link
    {:color "#000000" :source "diagram3.cljs"}
