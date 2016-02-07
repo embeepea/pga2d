@@ -18,8 +18,8 @@
    [[-1.5 -1.5] [1.5 1.5]]
 
    :inputs
-   {:n {:type :slider :min 1 :max 1000 :step 1 :value 720}
-    :s {:type :slider :min 1 :max 100 :step 1 :value 38.0}
+   {:n {:type :slider :min 1 :max 1000 :step 1 :value 720 :width 500}
+    :s {:type :slider :min 1 :max 100 :step 0.01 :value 38.0 :width 500}
     }
 
    ;; The user will be able to drag these points.  Each draggable should

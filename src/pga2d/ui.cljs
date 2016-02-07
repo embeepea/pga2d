@@ -42,6 +42,7 @@
                   (.div js/React.DOM #js{}
                         (.span js/React.DOM #js{} (str (kwdstr this.props.keyword) ": "))
                         (.input js/React.DOM #js{:type "range"
+                                                 :style #js{:width this.props.width}
                                                  :min this.props.min
                                                  :max this.props.max
                                                  :step this.props.step
@@ -71,16 +72,20 @@
     (.createElement js/React TextInput
                     #js{:draw draw
                         :appstate appstate
-                        :keyword k :initialValue (:value v)})
+                        :keyword k
+                        :initialValue (:value v)
+                        })
 
     (= (:type v) :slider)
     (.createElement js/React SliderInput
-                    #js{:draw draw :appstate appstate
+                    #js{:draw draw
+                        :appstate appstate
                         :keyword k
                         :initialValue (:value v)
                         :min (:min v)
                         :max (:max v)
                         :step (:step v)
+                        :width (if (:width v) (:width v) 200)
                         })
     ))
 
