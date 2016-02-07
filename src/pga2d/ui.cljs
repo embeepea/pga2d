@@ -99,7 +99,10 @@
        :render
        (fn []
          (this-as this
-                  (apply js/React.DOM.div #js{}
+                  (apply js/React.DOM.div
+                         #js{:className "inputs"
+                             :style #js{:backgroundColor this.props.backgroundColor
+                                        :opacity this.props.opacity}}
                          (map
                           (fn [[k v]]
                             ;; k,v are the key,value for a single input

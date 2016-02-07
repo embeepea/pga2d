@@ -43,48 +43,40 @@
   (let [defaults   {:g        (cf/ga 0)
                     :dragables {}
                     :inputs    {}
+                    :input-style {:backgroundColor "#ffffff" :opacity 0.75}
                     :draw     (fn [] nil)
                     :coords   [[-1 -1] [1 1]]}
-        {:keys [g
-                dragables
-                inputs
-                draw
-                coords]} (into defaults options)
-         N         (g :normalized)
-         cv        (c/canvas (first coords) (second coords))
-         render    (c/canvas-render cv g)
-         state     (atom {:dragables dragables :inputs (ui/input-value-map inputs)})
-         dragable  (fn [k] (get-in @state [:dragables k :mv]))
-         ;;input     (fn [k] (js/parseFloat (.val (get-in @state [:$inputs k]))))
-         input     (fn [k] (get-in @state [:inputs k]))
-         selected  (fn [mv k] (assoc mv :selected (= k (@state :selection))))
-
-         draw-all  (fn []
-                     (draw g cv render dragable input)
-                     (doseq [[k {:keys [mv color]}]  (@state :dragables)]
-                       (render (selected mv k) {:color color})))
+        {:keys
+         [g
+          dragables
+          inputs
+          draw
+          coords]}   (into defaults options)
+         input-style (into (:input-style defaults) (:input-style options))
+         N           (g :normalized)
+         cv          (c/canvas (first coords) (second coords))
+         render      (c/canvas-render cv g)
+         state       (atom {:dragables dragables :inputs (ui/input-value-map inputs)})
+         dragable    (fn [k] (get-in @state [:dragables k :mv]))
+         ;;input       (fn [k] (js/parseFloat (.val (get-in @state [:$inputs k]))))
+         input       (fn [k] (get-in @state [:inputs k]))
+         selected    (fn [mv k] (assoc mv :selected (= k (@state :selection))))
+  
+         draw-all    (fn []
+                       (draw g cv render dragable input)
+                       (doseq [[k {:keys [mv color]}]  (@state :dragables)]
+                         (render (selected mv k) {:color color})))
         ]
 
-;;    (->
-;;     (js/$ "#inputs")
-;;     (.remove))
-;;    (->
-;;     (js/$ "<div class='inputs'>")
-;;     (.attr "style" "position: absolute; left: 20px; top: 20px;")
-;;     (.appendTo (js/$ "body")))
-;;    (doseq [[k v] inputs]
-;;      (let [$div (js/$ (str "<div>" (kwdstr k) ": <input type='text' size='8' value='" v  "'></div>"))]
-;;        (.appendTo $div (js/$ ".inputs"))
-;;        (swap! state assoc-in [:$inputs k ] (.find $div "input"))))
-;;    (->
-;;     (js/$ ".inputs input")
-;;     (.change (fn [] (draw-all))))
-      
-
     (.render js/ReactDOM
-             (.createElement js/React ui/UI #js{:draw draw-all :appstate state :inputs inputs})
-             (.getElementById js/document "app"))
-
+             (.createElement js/React ui/UI
+                             #js{:draw draw-all
+                                 :appstate state
+                                 :inputs inputs
+                                 :backgroundColor (:backgroundColor input-style)
+                                 :opacity (:opacity input-style)
+                                 })
+             (.getElementById js/document "ui"))
 
     ((cv :install-mouse-handler)
      (fn [event]

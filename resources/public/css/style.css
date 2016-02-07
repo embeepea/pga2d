@@ -7,9 +7,21 @@ html, body, canvas {
 #canvas {
   position: absolute;
 }
-.inputs, input {
+#ui, #ui input {
   font-weight: bold;
   font-size: 14pt;
+}
+#ui {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+#ui .inputs {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid black;
 }
 #sourcelink {
   position: absolute;
@@ -20,8 +32,3 @@ html, body, canvas {
 #sourcelink a:visited { color: #fff; text-decoration: none; }  /* visited links   */
 #sourcelink a:hover   { color: #fff; text-decoration: underline; }  /* user hovers     */
 #sourcelink a:active  { color: #ccc; text-decoration: underline;  }  /* active links    */
-#app {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
