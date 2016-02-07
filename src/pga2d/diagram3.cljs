@@ -15,11 +15,12 @@
 
 (d/diagram
   {:coords
-   [[-1.5 -1.5] [1.5 1.5]]
+     [[-1.5 -1.5] [1.5 1.5]]
+;;   [[-0.15 -0.15] [0.15 0.15]]
 
    :inputs
-   {:n 720.0
-    :s 38.0}
+   {:n 720
+    :s 2.0}
 
    ;; The user will be able to drag these points.  Each draggable should
    ;; have a key which serves as its id; the value for that key should

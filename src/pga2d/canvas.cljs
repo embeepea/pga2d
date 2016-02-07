@@ -30,7 +30,7 @@
 
 (def ega (cf/ga 0))
 
-(def global-scale 10.0)
+(def global-scale 50.0)
 
 ; a function to quickly generate two points on a given line
 ; arbitrarily far away ("far" is controlled by global scale gs above
