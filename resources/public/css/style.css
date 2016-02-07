@@ -11,6 +11,15 @@ html, body, canvas {
   font-weight: bold;
   font-size: 14pt;
 }
+#sourcelink {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+#sourcelink a:link    { color: #fff; text-decoration: none; }  /* unvisited links */
+#sourcelink a:visited { color: #fff; text-decoration: none; }  /* visited links   */
+#sourcelink a:hover   { color: #fff; text-decoration: underline; }  /* user hovers     */
+#sourcelink a:active  { color: #ccc; text-decoration: underline;  }  /* active links    */
 #app {
   position: absolute;
   right: 20px;

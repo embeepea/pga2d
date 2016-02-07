@@ -1,5 +1,6 @@
 (ns pga2d.diagram
-  (:require [pga2d.grassmann :as gr]
+  (:require [pga2d.ui :as ui]
+            [pga2d.grassmann :as gr]
             [pga2d.clifford :as cf]
             [pga2d.canvas :as c]))
 
@@ -52,9 +53,10 @@
          N         (g :normalized)
          cv        (c/canvas (first coords) (second coords))
          render    (c/canvas-render cv g)
-         state     (atom {:dragables dragables})
+         state     (atom {:dragables dragables :inputs (ui/input-value-map inputs)})
          dragable  (fn [k] (get-in @state [:dragables k :mv]))
-         input     (fn [k] (js/parseFloat (.val (get-in @state [:$inputs k]))))
+         ;;input     (fn [k] (js/parseFloat (.val (get-in @state [:$inputs k]))))
+         input     (fn [k] (get-in @state [:inputs k]))
          selected  (fn [mv k] (assoc mv :selected (= k (@state :selection))))
 
          draw-all  (fn []
@@ -63,21 +65,26 @@
                        (render (selected mv k) {:color color})))
         ]
 
-    (->
-     (js/$ "#inputs")
-     (.remove))
-    (->
-     (js/$ "<div class='inputs'>")
-     (.attr "style" "position: absolute; left: 20px; top: 20px;")
-     (.appendTo (js/$ "body")))
-    (doseq [[k v] inputs]
-      (let [$div (js/$ (str "<div>" (kwdstr k) ": <input type='text' size='8' value='" v  "'></div>"))]
-        (.appendTo $div (js/$ ".inputs"))
-        (swap! state assoc-in [:$inputs k ] (.find $div "input"))))
-    (->
-     (js/$ ".inputs input")
-     (.change (fn [] (draw-all))))
+;;    (->
+;;     (js/$ "#inputs")
+;;     (.remove))
+;;    (->
+;;     (js/$ "<div class='inputs'>")
+;;     (.attr "style" "position: absolute; left: 20px; top: 20px;")
+;;     (.appendTo (js/$ "body")))
+;;    (doseq [[k v] inputs]
+;;      (let [$div (js/$ (str "<div>" (kwdstr k) ": <input type='text' size='8' value='" v  "'></div>"))]
+;;        (.appendTo $div (js/$ ".inputs"))
+;;        (swap! state assoc-in [:$inputs k ] (.find $div "input"))))
+;;    (->
+;;     (js/$ ".inputs input")
+;;     (.change (fn [] (draw-all))))
       
+
+    (.render js/ReactDOM
+             (.createElement js/React ui/UI #js{:draw draw-all :appstate state :inputs inputs})
+             (.getElementById js/document "app"))
+
 
     ((cv :install-mouse-handler)
      (fn [event]
