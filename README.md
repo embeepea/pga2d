@@ -154,7 +154,7 @@ the latest changes, do the following:
    
 10. Switch your local copy back to the master branch for ongoing work.  Do NOT
     forget to do this.  If you stay on the gh-pages branch and make further
-    edits, you're likely to screw something up when you try to merge those
+    edits in your local copy, you're likely to screw something up when you try to merge those
     edits into master!
     ```
     git checkout master
