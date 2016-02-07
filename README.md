@@ -54,29 +54,9 @@ To clean all compiled files:
     lein clean
     
     
-## Creating a Production Build
-    
-By a "production build" we mean a collection of files that you can
-generate on your development machine which can then be put on a web
-server, and/or viewed in a browser.  No ClojureScript compiler or
-other tools are needed on either the server or in the browser -- a
-production build consists of a collection of plain HTML, JS, and CSS
-files; these files can be deployed to any web server and viewed in any
-reasonably modern web browser.  A production build does NOT include a
-REPL or hot code reloading.
+### Creating a New Diagram
 
-The default "main" program is the file src/pga2d/test.cljs.  To create a 
-To create a production build of this file, run the command:
-
-    lein cljsbuild once min
-    
-Then open the file `resources/public/index.html` in your browser.  If
-you want to deploy the results to a web server, deploy the entire
-"resources/public" directory to the server.
-
-### Creating an Alternate Production Build ("New Diagram")
-
-You can also create an additional "main" program in the project and set
+You can create an additional "main" program in the project and set
 up an alternate build target and corresponding HTML file for it, so that
 you can create, maintain, build, and deploy multiple separate programs from
 this same project.  The project contains one alternate main program and build
@@ -113,3 +93,68 @@ copy the "diagram1" files and code as follows:
 5. Open the file `resources/public/myprog.html` in your browser.  If
    you want to deploy the results to a web server, deploy the entire
    "resources/public" directory to the server.
+
+## Production Deployment (Github Pages)
+
+There is a publicly visible copy of this project online at
+http://embeepea.github.io/pga2d.  To update that online copy with
+the latest changs, do the following:
+
+1. Get into your local copy, if you are not already: 
+   ```
+   cd pga2d
+   ```
+
+2. Make sure that you have committed all outstanding edits, and that you
+   have updated your local copy with any new commits from origin, and that
+   you have pushed your latest commits to origin: 
+   ```
+   git add <any edited/added files>
+   git commit -m 'log message'
+   git pull origin master
+   git push origin master
+   ```
+   
+3. Switch to the 'gh-pages' branch: 
+   ```
+   git checkout gh-pages
+   ```
+
+4. Pull from origin to make sure you have the most recent changes to
+   the 'gh-pages' branch: 
+   ```
+   git pull origin gh-pages
+   ```
+   
+5. Merge the latest changes from the master branch into the gh-pages branch: 
+   ```
+   git merge master
+   ```
+   
+6. Fix any conflicts that arise from the previous step.
+
+7. Examine the current status of your local copy 
+   ```
+   git status
+   ```
+   and do whatever is necessary to stage all the relevant changes for a commit.  This
+   mostly just means doing `git add` for any modified files, or files that were added
+   in the master branch, but in some cases it might also mean running `rm` and/or `git rm` to remove
+   the local copy of files that were deleted from the master branch.
+   
+8. When you're sure that all the relevant changes are staged for commit, do the commit: 
+   ```
+   git commit -m 'merge master'
+   
+9. Push the 'gh-pages' branch to origin: 
+   ```
+   git push origin gh-pages
+   ```
+   
+10. Switch your local copy back to the master branch for ongoing work.  Do NOT
+    forget to do this.  If you stay on the gh-pages branch and make further
+    edits, you're likely to screw something up when you try to merge those
+    edits into master!
+    ```
+    git checkout master
+    ```
