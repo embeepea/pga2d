@@ -18,9 +18,13 @@
      [[-1.5 -1.5] [1.5 1.5]]
 ;;   [[-0.15 -0.15] [0.15 0.15]]
 
+   :input-style
+   {:backgroundColor "#ffffff" :opacity 0.75}
+
    :inputs
-   {:n 720
-    :s 2.0}
+   {:n {:type :slider :min 1 :max 1000 :step 1 :value 720 :width 500}
+    :s {:type :slider :min 1 :max 100 :step 0.01 :value 38.0 :width 500}
+    }
 
    ;; The user will be able to drag these points.  Each draggable should
    ;; have a key which serves as its id; the value for that key should
@@ -51,9 +55,45 @@
                p1    (gr/point (Math.cos angle1) (Math.sin angle1) 1)
                m     (gr/join p0 p1)]
 ;;           (println "m = " m)
-          (println "t = " t)
+;;          (println "t = " t)
           (render m {:color "#000000"})
            ))
 
        )
      )})
+
+;; (def TextSlider
+;;   (.createClass
+;;    js/React
+;;    #js{
+;;        :handleInput
+;;        (fn [e] (this-as this (.setState this #js{:value e.target.value})))
+;;        :getInitialState
+;;        (fn [] (this-as this #js{:value this.props.initialValue}))
+;;        :render
+;;        (fn []
+;;          (this-as this
+;;                   (.div js/React.DOM #js{:className "textSlider"}
+;;                         #_(.input js/React.DOM #js{:type "text" :size "1" :value this.state.value
+;;                                                  :onChange this.handleInput})
+;;                         (.span js/React.DOM #js{} this.state.value)
+;;                         (.input js/React.DOM #js{:type "range" :min "0" :max "10" :step "1"
+;;                                                  :value this.state.value
+;;                                                  :onInput this.handleInput
+;;                                                  :onChange this.handleInput}))))}))
+;; 
+;; (def App
+;;   (.createClass
+;;    js/React
+;;    #js{
+;;        :render
+;;        (fn []
+;;          (this-as this
+;;                   (.div js/React.DOM #js{}
+;;                         (.createElement js/React TextSlider #js{:initialValue 2})
+;;                         (.createElement js/React TextSlider #js{:initialValue 9}))))}))
+;; 
+;; (.render js/ReactDOM
+;;          #_(.createElement js/React TextSlider #js{:initialValue 7})
+;;          (.createElement js/React App)
+;;          (.getElementById js/document "app"))
