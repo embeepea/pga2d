@@ -1,2 +1,42 @@
 /* some style */
+html, body, canvas {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#canvas {
+  position: absolute;
+}
+#ui, #ui input {
+  font-weight: bold;
+  font-size: 14pt;
+}
+#ui {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+#ui .inputs {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid black;
+}
+#sourcelink {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  left: 0;
+  text-align: center;
+}
+.sourcelink-container {
+  display: inline-block;
+  padding: 10px;
+}
+
+#sourcelink a:link    { text-decoration: none; }  /* unvisited links */
+#sourcelink a:visited { text-decoration: none; }  /* visited links   */
+#sourcelink a:hover   { text-decoration: underline; }  /* user hovers     */
+#sourcelink a:active  { text-decoration: underline;  }  /* active links    */
 
