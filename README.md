@@ -98,7 +98,7 @@ copy the "diagram1" files and code as follows:
 
 There is a publicly visible copy of this project online at
 http://embeepea.github.io/pga2d.  To update that online copy with
-the latest changs, do the following:
+the latest changes, do the following:
 
 1. Get into your local copy, if you are not already: 
    ```
@@ -145,6 +145,7 @@ the latest changs, do the following:
 8. When you're sure that all the relevant changes are staged for commit, do the commit: 
    ```
    git commit -m 'merge master'
+   ```
    
 9. Push the 'gh-pages' branch to origin: 
    ```
