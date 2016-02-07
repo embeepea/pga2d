@@ -51,21 +51,27 @@
           dragables
           inputs
           draw
-          coords]}   (into defaults options)
-         input-style (into (:input-style defaults) (:input-style options))
-         N           (g :normalized)
-         cv          (c/canvas (first coords) (second coords))
-         render      (c/canvas-render cv g)
-         state       (atom {:dragables dragables :inputs (ui/input-value-map inputs)})
-         dragable    (fn [k] (get-in @state [:dragables k :mv]))
-         ;;input       (fn [k] (js/parseFloat (.val (get-in @state [:$inputs k]))))
-         input       (fn [k] (get-in @state [:inputs k]))
-         selected    (fn [mv k] (assoc mv :selected (= k (@state :selection))))
+          coords]}     (into defaults options)
+         input-style   (into (:input-style defaults) (:input-style options))
+         N             (g :normalized)
+         cv            (c/canvas (first coords) (second coords))
+         render        (c/canvas-render cv g)
+         state         (atom {:dragables dragables :inputs (ui/input-value-map inputs)})
+         dragable      (fn [k] (get-in @state [:dragables k :mv]))
+         input         (fn [k] (get-in @state [:inputs k]))
+         selected      (fn [mv k] (assoc mv :selected (= k (@state :selection))))
+
+         redraw-queued (atom false)
   
-         draw-all    (fn []
-                       (draw g cv render dragable input)
-                       (doseq [[k {:keys [mv color]}]  (@state :dragables)]
-                         (render (selected mv k) {:color color})))
+         draw-all      (fn []
+                         (when (not @redraw-queued)
+                           (reset! redraw-queued true)
+                           (js/requestAnimationFrame
+                            (fn []
+                              (reset! redraw-queued false)
+                              (draw g cv render dragable input)
+                              (doseq [[k {:keys [mv color]}]  (@state :dragables)]
+                                (render (selected mv k) {:color color}))))))
         ]
 
     (.render js/ReactDOM
