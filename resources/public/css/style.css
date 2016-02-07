@@ -1,2 +1,18 @@
 /* some style */
-
+html, body, canvas {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#canvas {
+  position: absolute;
+}
+.inputs, input {
+  font-weight: bold;
+  font-size: 14pt;
+}
+#app {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
