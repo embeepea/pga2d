@@ -25,10 +25,18 @@ html, body, canvas {
 }
 #sourcelink {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  width: 100%;
+  bottom: 10px;
+  left: 0;
+  text-align: center;
 }
-#sourcelink a:link    { color: #fff; text-decoration: none; }  /* unvisited links */
-#sourcelink a:visited { color: #fff; text-decoration: none; }  /* visited links   */
-#sourcelink a:hover   { color: #fff; text-decoration: underline; }  /* user hovers     */
-#sourcelink a:active  { color: #ccc; text-decoration: underline;  }  /* active links    */
+.sourcelink-container {
+  display: inline-block;
+  padding: 10px;
+}
+
+#sourcelink a:link    { text-decoration: none; }  /* unvisited links */
+#sourcelink a:visited { text-decoration: none; }  /* visited links   */
+#sourcelink a:hover   { text-decoration: underline; }  /* user hovers     */
+#sourcelink a:active  { text-decoration: underline;  }  /* active links    */
+

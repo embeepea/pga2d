@@ -21,6 +21,9 @@
  {:coords
   [[-2 -2] [2 2]]
 
+  :source-link
+  {:source "diagram2a.cljs"}
+
   ;; The user will be able to drag these points.  Each draggable should
   ;; have a key which serves as its id; the value for that key should
   ;; be a map with keys :mv (a point multivector), and :color.

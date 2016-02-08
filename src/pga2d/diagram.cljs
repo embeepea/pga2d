@@ -43,6 +43,7 @@
   (let [defaults   {:g        (cf/ga 0)
                     :dragables {}
                     :inputs    {}
+                    :source-link {:color "#ffffff"}
                     :input-style {:backgroundColor "#ffffff" :opacity 0.75}
                     :draw     (fn [] nil)
                     :coords   [[-1 -1] [1 1]]}
@@ -53,6 +54,7 @@
           draw
           coords]}     (into defaults options)
          input-style   (into (:input-style defaults) (:input-style options))
+         source-link   (into (:source-link defaults) (:source-link options))
          N             (g :normalized)
          cv            (c/canvas (first coords) (second coords))
          render        (c/canvas-render cv g)
@@ -74,15 +76,28 @@
                                 (render (selected mv k) {:color color}))))))
         ]
 
-    (.render js/ReactDOM
-             (.createElement js/React ui/UI
-                             #js{:draw draw-all
-                                 :appstate state
-                                 :inputs inputs
-                                 :backgroundColor (:backgroundColor input-style)
-                                 :opacity (:opacity input-style)
-                                 })
-             (.getElementById js/document "ui"))
+    (when (seq inputs) ; if there are inputs, render them
+      (.render js/ReactDOM
+               (.createElement js/React ui/UI
+                               #js{:draw draw-all
+                                   :appstate state
+                                   :inputs inputs
+                                   :backgroundColor (:backgroundColor input-style)
+                                   :opacity (:opacity input-style)
+                                   })
+             (.getElementById js/document "ui")))
+
+    (when (:source source-link)
+      (.render js/ReactDOM
+               (.div js/React.DOM #js{:className "sourcelink-container"}
+                     (.a js/React.DOM
+                         #js{:style #js{:color (:color source-link)}
+                             :target "_blank"
+                             :href 
+                             (str "https://github.com/embeepea/pga2d/blob/gh-pages/src/pga2d/" (:source source-link))}
+                         "view the source code for this diagram"))
+             (.getElementById js/document "sourcelink")))
+
 
     ((cv :install-mouse-handler)
      (fn [event]
