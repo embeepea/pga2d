@@ -22,8 +22,8 @@
    {:backgroundColor "#ffffff" :opacity 0.75}
 
    :inputs
-   {:n {:type :slider :min 1 :max 1000 :step 1 :value 720 :width 500}
-    :s {:type :slider :min 1 :max 100 :step 0.01 :value 38.0 :width 500}
+   {:n {:type :slider :min 1 :max 720 :step 1 :value 720 :width 500}
+    :s {:type :slider :min 1 :max 720 :step 1 :value 38 :width 500}
     }
 
    ;; The user will be able to drag these points.  Each draggable should
@@ -48,15 +48,18 @@
        ((cv :set-line-width) .25)
        ;; draw lines connecting the x_i (the ith root of unity)
        ;; to (x_i)^s, its sth power.
-       (doseq [t (range 0.0 1.0 delta)]
+       (doseq [t (range delta 1.0 delta)]
          (let [angle0 (* t (* 2 Math.PI))
                angle1 (* angle0 s)
                p0    (gr/point (Math.cos angle0) (Math.sin angle0) 1)
                p1    (gr/point (Math.cos angle1) (Math.sin angle1) 1)
-               m     (gr/join p0 p1)]
+               [m, c]      (if (< (d/mndist p0 p1) 1E-6) ;; draw tangent line when points equal
+                             (let [pv (gr/point (- (Math.sin angle0)) (Math.cos angle0) 0)]
+                        [(gr/join p0 pv), "#000000"])
+                        [(gr/join p0 p1), "#000000"])]
 ;;           (println "m = " m)
 ;;          (println "t = " t)
-          (render m {:color "#000000"})
+          (render m {:color c})
            ))
 
        )
