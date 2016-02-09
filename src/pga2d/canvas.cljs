@@ -41,8 +41,10 @@
         k       (- (/ c d2))              ;; factor to find nearest point to origin
         near0   [(* a k) (* b k) 1]     ;; nearest point to origin
         vec     [(- (* gs b)) (* gs a) 0] ;; direction vector of line of length gs
-        p0      (map + near0 vec)         ;; move near point by vec
-        p1      (map - near0 vec)         ;; move near point by -vec
+        k2      (Math.sqrt d2)            ;; normalize the vector
+        nvec    (map #(/ % k2) vec)       ;; ditto
+        p0      (map + near0 nvec)         ;; move near point by vec
+        p1      (map - near0 nvec)         ;; move near point by -vec
         ]
     [(gr/point p0) (gr/point p1)]         ;; two points as multivectors
     )
@@ -209,7 +211,7 @@
   ((cv :draw-line) mv))
 
 (defmethod render nil [cv g mv]
-  (println "invalid render")
+  (println "invalid render: " mv)
   )
 
 (defn canvas-render [cv g]
