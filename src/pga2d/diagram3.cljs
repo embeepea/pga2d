@@ -2,7 +2,10 @@
   (:require [pga2d.grassmann :as gr]
             [pga2d.clifford :as cf]
             [pga2d.canvas :as c]
-            [pga2d.diagram :as d]))
+            [pga2d.diagram :as d]
+            [cljs.pprint :refer [cl-format]]
+            ))
+
 
 (enable-console-print!)
 
@@ -46,6 +49,7 @@
            n      (input :n)
            delta  (/ 1.0 n)
            s      (input :s)
+           doColor false
            ]
        ((cv :clear) "#ffffff")
        ((cv :set-line-width) .25)
@@ -54,12 +58,15 @@
        (doseq [t (range delta 1.0 delta)]
          (let [angle0 (* t (* 2 Math.PI))
                angle1 (* angle0 s)
+               red   (Math.floor (* t 255))
+               blue  (Math.floor (* (- 1.0 t) 255))
+               color (cl-format nil "rgb(~d, 0, ~d)" red blue)
                p0    (gr/point (Math.cos angle0) (Math.sin angle0) 1)
                p1    (gr/point (Math.cos angle1) (Math.sin angle1) 1)
                [m, c]      (if (< (d/mndist p0 p1) 1E-6) ;; draw tangent line when points equal
                              (let [pv (gr/point (- (Math.sin angle0)) (Math.cos angle0) 0)]
                         [(gr/join p0 pv), "#000000"])
-                        [(gr/join p0 p1), "#000000"])]
+                        [(gr/join p0 p1), (if doColor color "#000000")])]
 ;;           (println "m = " m)
 ;;          (println "t = " t)
           (render m {:color c})
