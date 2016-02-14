@@ -33,57 +33,57 @@ render.call(null,c,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyw
 
 render.call(null,s,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"#ff0000"], null));
 
-var seq__6029_6033 = cljs.core.seq.call(null,cljs.core.drop_last.call(null,(1),cljs.core.drop.call(null,(1),cljs.core.range.call(null,0.0,1.0,(1.0 / 15.0)))));
-var chunk__6030_6034 = null;
-var count__6031_6035 = (0);
-var i__6032_6036 = (0);
+var seq__7263_7267 = cljs.core.seq.call(null,cljs.core.drop_last.call(null,(1),cljs.core.drop.call(null,(1),cljs.core.range.call(null,0.0,1.0,(1.0 / 15.0)))));
+var chunk__7264_7268 = null;
+var count__7265_7269 = (0);
+var i__7266_7270 = (0);
 while(true){
-if((i__6032_6036 < count__6031_6035)){
-var t_6037 = cljs.core._nth.call(null,chunk__6030_6034,i__6032_6036);
-var rotor_6038 = g.call(null,new cljs.core.Keyword(null,"exp","exp",-261706262)).call(null,t_6037,h);
-render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_6038).call(null,m0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,0,0.4)"], null));
+if((i__7266_7270 < count__7265_7269)){
+var t_7271 = cljs.core._nth.call(null,chunk__7264_7268,i__7266_7270);
+var rotor_7272 = g.call(null,new cljs.core.Keyword(null,"exp","exp",-261706262)).call(null,t_7271,h);
+render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_7272).call(null,m0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,0,0.4)"], null));
 
-render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_6038).call(null,A0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,255,0.5)"], null));
+render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_7272).call(null,A0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,255,0.5)"], null));
 
-var G__6039 = seq__6029_6033;
-var G__6040 = chunk__6030_6034;
-var G__6041 = count__6031_6035;
-var G__6042 = (i__6032_6036 + (1));
-seq__6029_6033 = G__6039;
-chunk__6030_6034 = G__6040;
-count__6031_6035 = G__6041;
-i__6032_6036 = G__6042;
+var G__7273 = seq__7263_7267;
+var G__7274 = chunk__7264_7268;
+var G__7275 = count__7265_7269;
+var G__7276 = (i__7266_7270 + (1));
+seq__7263_7267 = G__7273;
+chunk__7264_7268 = G__7274;
+count__7265_7269 = G__7275;
+i__7266_7270 = G__7276;
 continue;
 } else {
-var temp__4425__auto___6043 = cljs.core.seq.call(null,seq__6029_6033);
-if(temp__4425__auto___6043){
-var seq__6029_6044__$1 = temp__4425__auto___6043;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__6029_6044__$1)){
-var c__5471__auto___6045 = cljs.core.chunk_first.call(null,seq__6029_6044__$1);
-var G__6046 = cljs.core.chunk_rest.call(null,seq__6029_6044__$1);
-var G__6047 = c__5471__auto___6045;
-var G__6048 = cljs.core.count.call(null,c__5471__auto___6045);
-var G__6049 = (0);
-seq__6029_6033 = G__6046;
-chunk__6030_6034 = G__6047;
-count__6031_6035 = G__6048;
-i__6032_6036 = G__6049;
+var temp__4425__auto___7277 = cljs.core.seq.call(null,seq__7263_7267);
+if(temp__4425__auto___7277){
+var seq__7263_7278__$1 = temp__4425__auto___7277;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__7263_7278__$1)){
+var c__5471__auto___7279 = cljs.core.chunk_first.call(null,seq__7263_7278__$1);
+var G__7280 = cljs.core.chunk_rest.call(null,seq__7263_7278__$1);
+var G__7281 = c__5471__auto___7279;
+var G__7282 = cljs.core.count.call(null,c__5471__auto___7279);
+var G__7283 = (0);
+seq__7263_7267 = G__7280;
+chunk__7264_7268 = G__7281;
+count__7265_7269 = G__7282;
+i__7266_7270 = G__7283;
 continue;
 } else {
-var t_6050 = cljs.core.first.call(null,seq__6029_6044__$1);
-var rotor_6051 = g.call(null,new cljs.core.Keyword(null,"exp","exp",-261706262)).call(null,t_6050,h);
-render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_6051).call(null,m0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,0,0.4)"], null));
+var t_7284 = cljs.core.first.call(null,seq__7263_7278__$1);
+var rotor_7285 = g.call(null,new cljs.core.Keyword(null,"exp","exp",-261706262)).call(null,t_7284,h);
+render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_7285).call(null,m0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,0,0.4)"], null));
 
-render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_6051).call(null,A0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,255,0.5)"], null));
+render.call(null,pga2d.grassmann.chop.call(null,g.call(null,new cljs.core.Keyword(null,"sandwich","sandwich",1338727993)).call(null,rotor_7285).call(null,A0),1.0E-10),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"rgba(255,255,255,0.5)"], null));
 
-var G__6052 = cljs.core.next.call(null,seq__6029_6044__$1);
-var G__6053 = null;
-var G__6054 = (0);
-var G__6055 = (0);
-seq__6029_6033 = G__6052;
-chunk__6030_6034 = G__6053;
-count__6031_6035 = G__6054;
-i__6032_6036 = G__6055;
+var G__7286 = cljs.core.next.call(null,seq__7263_7278__$1);
+var G__7287 = null;
+var G__7288 = (0);
+var G__7289 = (0);
+seq__7263_7267 = G__7286;
+chunk__7264_7268 = G__7287;
+count__7265_7269 = G__7288;
+i__7266_7270 = G__7289;
 continue;
 }
 } else {
@@ -97,4 +97,4 @@ render.call(null,Am,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Key
 return render.call(null,C,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1011675173),"#ffffff"], null));
 })], null));
 
-//# sourceMappingURL=diagram2a.js.map?rel=1455004145410
+//# sourceMappingURL=diagram2a.js.map?rel=1455459369463

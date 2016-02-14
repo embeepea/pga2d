@@ -253,4 +253,4 @@ pga2d.grassmann.chop = (function pga2d$grassmann$chop(mv,tol){
 return pga2d.grassmann.multivector_native.call(null,pga2d.grassmann.chop_vector.call(null,mv.call(null,new cljs.core.Keyword(null,"0","0",351625802)),tol),pga2d.grassmann.chop_vector.call(null,mv.call(null,new cljs.core.Keyword(null,"1","1",-521621649)),tol),pga2d.grassmann.chop_vector.call(null,mv.call(null,new cljs.core.Keyword(null,"2","2",-1645882217)),tol),pga2d.grassmann.chop_vector.call(null,mv.call(null,new cljs.core.Keyword(null,"3","3",2097825370)),tol));
 });
 
-//# sourceMappingURL=grassmann.js.map?rel=1455004144780
+//# sourceMappingURL=grassmann.js.map?rel=1455459365508

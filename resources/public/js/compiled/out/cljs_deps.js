@@ -8,6 +8,8 @@ goog.addDependency("../pga2d/diagram.js", ['pga2d.diagram'], ['cljs.core', 'pga2
 goog.addDependency("../pga2d/diagram1a.js", ['pga2d.diagram1a'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.diagram', 'pga2d.grassmann']);
 goog.addDependency("../pga2d/diagram1.js", ['pga2d.diagram1'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.grassmann']);
 goog.addDependency("../pga2d/test.js", ['pga2d.test'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.grassmann']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer']);
 goog.addDependency("../pga2d/diagram2.js", ['pga2d.diagram2'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.grassmann']);
 goog.addDependency("../pga2d/diagram2a.js", ['pga2d.diagram2a'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.diagram', 'pga2d.grassmann']);
-goog.addDependency("../pga2d/diagram3.js", ['pga2d.diagram3'], ['cljs.core', 'pga2d.canvas', 'pga2d.clifford', 'pga2d.diagram', 'pga2d.grassmann']);
+goog.addDependency("../cljs/pprint.js", ['cljs.pprint'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer', 'clojure.string']);
+goog.addDependency("../pga2d/diagram3.js", ['pga2d.diagram3'], ['cljs.core', 'pga2d.canvas', 'cljs.pprint', 'pga2d.clifford', 'pga2d.diagram', 'pga2d.grassmann']);

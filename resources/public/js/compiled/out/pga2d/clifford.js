@@ -289,4 +289,4 @@ return pga2d.clifford.ordinary_norm_squared.call(null,sig,mv);
 })]);
 });
 
-//# sourceMappingURL=clifford.js.map?rel=1455004144978
+//# sourceMappingURL=clifford.js.map?rel=1455459365703

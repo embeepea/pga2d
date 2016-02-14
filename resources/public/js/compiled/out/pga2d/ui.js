@@ -33,10 +33,10 @@ var this$ = this;
 return React.DOM.div({},React.DOM.span({},[cljs.core.str(pga2d.ui.kwdstr.call(null,this$.props.keyword)),cljs.core.str(": ")].join('')),React.DOM.input({"type": "range", "style": {"width": this$.props.width}, "min": this$.props.min, "max": this$.props.max, "step": this$.props.step, "value": this$.state.value, "onInput": this$.handleInput, "onChange": this$.handleInput}),React.DOM.input({"type": "text", "size": "8", "value": this$.state.value, "onChange": this$.handleInput}));
 })});
 pga2d.ui.input_value_map = (function pga2d$ui$input_value_map(inputs){
-return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__5952){
-var vec__5953 = p__5952;
-var k = cljs.core.nth.call(null,vec__5953,(0),null);
-var v = cljs.core.nth.call(null,vec__5953,(1),null);
+return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__7144){
+var vec__7145 = p__7144;
+var k = cljs.core.nth.call(null,vec__7145,(0),null);
+var v = cljs.core.nth.call(null,vec__7145,(1),null);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,((typeof v === 'number')?v:new cljs.core.Keyword(null,"value","value",305978217).cljs$core$IFn$_invoke$arity$1(v))], null);
 }),cljs.core.seq.call(null,inputs)));
 });
@@ -58,13 +58,13 @@ return null;
 pga2d.ui.UI = React.createClass({"render": (function (){
 var this$ = this;
 return cljs.core.apply.call(null,React.DOM.div,{"className": "inputs", "style": {"backgroundColor": this$.props.backgroundColor, "opacity": this$.props.opacity}},cljs.core.map.call(null,((function (this$){
-return (function (p__5954){
-var vec__5955 = p__5954;
-var k = cljs.core.nth.call(null,vec__5955,(0),null);
-var v = cljs.core.nth.call(null,vec__5955,(1),null);
+return (function (p__7146){
+var vec__7147 = p__7146;
+var k = cljs.core.nth.call(null,vec__7147,(0),null);
+var v = cljs.core.nth.call(null,vec__7147,(1),null);
 return pga2d.ui.input_widget.call(null,k,v,this$.props.draw,this$.props.appstate);
 });})(this$))
 ,cljs.core.seq.call(null,this$.props.inputs)));
 })});
 
-//# sourceMappingURL=ui.js.map?rel=1455004145204
+//# sourceMappingURL=ui.js.map?rel=1455459369211
