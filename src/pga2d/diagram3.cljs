@@ -55,8 +55,9 @@
        ((cv :set-line-width) .25)
        ;; draw lines connecting the x_i (the ith root of unity)
        ;; to (x_i)^s, its sth power.
-       (doseq [t (range delta 1.0 delta)]
-         (let [angle0 (* t (* 2 Math.PI))
+       (doseq [i (range 1 (+ n 1))]
+         (let [t (* (- i 1) delta)
+               angle0 (* t (* 2 Math.PI))
                angle1 (* angle0 s)
                red   (Math.floor (* t 255))
                blue  (Math.floor (* (- 1.0 t) 255))
