@@ -30,6 +30,8 @@
    :inputs
    {:n {:type :slider :min 1 :max 720 :step 1 :value 720 :width 500}
     :s {:type :slider :min 1 :max 720 :step 1 :value 38 :width 500}
+    :z {:type :slider :min 0.05 :max 20 :step 0.1 :value 1.0 :width 500}
+    :w {:type :slider :min 0.01 :max 2 :step 0.01 :value 0.5 :width 500}
     }
 
    ;; The user will be able to drag these points.  Each draggable should
@@ -49,10 +51,13 @@
            n      (input :n)
            delta  (/ 1.0 n)
            s      (input :s)
+           z      (input :z)
+           w      (input :w)
            doColor false
            ]
        ((cv :clear) "#ffffff")
-       ((cv :set-line-width) .25)
+       ((cv :scale) z)
+       ((cv :set-line-width) w)
        ;; draw lines connecting the x_i (the ith root of unity)
        ;; to (x_i)^s, its sth power.
        (doseq [i (range 1 (+ n 1))]

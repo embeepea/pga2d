@@ -115,9 +115,21 @@
     (set! (.-height canvas-element) h)
     (let [ctx (.getContext canvas-element "2d")]
       {
+       :scale
+       (fn [scale]
+         (let [mx (/ w 2) ;(/ (+ (wll 0) (wur 0)) 2)
+               my (/ h 2)] ; (/ (+ (wll 1) (wur 1)) 2)]
+           (println "wll:wur " wll ":" wur)
+           (.transform ctx 1.0 0.0 0.0 1.0 mx my)
+           (.transform ctx scale 0.0 0.0 scale 0.0 0.0)
+           (.transform ctx 1.0 0.0 0.0 1.0 (-  mx) (- my))
+           )
+         )
        :clear
        (fn [color]
          (set! (.-fillStyle ctx) color)
+         (.resetTransform ctx)
+         (.setTransform ctx 1 0 0 1 0 0)
          (.fillRect ctx 0 0 w h)
          ;(.clip ctx )
          )
