@@ -30,7 +30,7 @@
 
 (def ega (cf/ga 0))
 
-(def global-scale 10.0)
+(def global-scale 50.0)
 
 ; a function to quickly generate two points on a given line
 ; arbitrarily far away ("far" is controlled by global scale gs above
@@ -41,8 +41,10 @@
         k       (- (/ c d2))              ;; factor to find nearest point to origin
         near0   [(* a k) (* b k) 1]     ;; nearest point to origin
         vec     [(- (* gs b)) (* gs a) 0] ;; direction vector of line of length gs
-        p0      (map + near0 vec)         ;; move near point by vec
-        p1      (map - near0 vec)         ;; move near point by -vec
+        k2      (Math.sqrt d2)            ;; normalize the vector
+        nvec    (map #(/ % k2) vec)       ;; ditto
+        p0      (map + near0 nvec)         ;; move near point by vec
+        p1      (map - near0 nvec)         ;; move near point by -vec
         ]
     [(gr/point p0) (gr/point p1)]         ;; two points as multivectors
     )
@@ -113,9 +115,21 @@
     (set! (.-height canvas-element) h)
     (let [ctx (.getContext canvas-element "2d")]
       {
+       :scale
+       (fn [scale]
+         (let [mx (/ w 2) ;(/ (+ (wll 0) (wur 0)) 2)
+               my (/ h 2)] ; (/ (+ (wll 1) (wur 1)) 2)]
+           (println "wll:wur " wll ":" wur)
+           (.transform ctx 1.0 0.0 0.0 1.0 mx my)
+           (.transform ctx scale 0.0 0.0 scale 0.0 0.0)
+           (.transform ctx 1.0 0.0 0.0 1.0 (-  mx) (- my))
+           )
+         )
        :clear
        (fn [color]
          (set! (.-fillStyle ctx) color)
+         (.resetTransform ctx)
+         (.setTransform ctx 1 0 0 1 0 0)
          (.fillRect ctx 0 0 w h)
          ;(.clip ctx )
          )
@@ -209,7 +223,7 @@
   ((cv :draw-line) mv))
 
 (defmethod render nil [cv g mv]
-  (println "invalid render")
+  (println "invalid render: " mv)
   )
 
 (defn canvas-render [cv g]

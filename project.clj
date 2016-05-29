@@ -34,8 +34,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/pga2d.js"
                            :main pga2d.test
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram1
@@ -43,8 +49,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1.js"
                            :main pga2d.diagram1
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2
@@ -52,16 +64,28 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2.js"
                            :main pga2d.diagram2
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                {:id "diagram3"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram3.js"
                            :main pga2d.diagram3
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram1a
@@ -69,8 +93,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram1a.js"
                            :main pga2d.diagram1a
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ;; lein cljsbuild once diagram2a
@@ -78,8 +108,14 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/diagram2a.js"
                            :main pga2d.diagram2a
-                           :externs ["externs/jquery-1.9-externs.js"]
-                           :optimizations :advanced
+                           :preamble ["./public/lib/react-0.14.7/build/react.min.js"
+                                      "./public/lib/react-0.14.7/build/react-dom.min.js"
+                                      "./public/lib/requestanimationframe.js"]
+                           :externs ["resources/public/lib/react-0.14.7/build/react.js"
+                                     "resources/public/lib/react-0.14.7/build/react-dom.js"]
+                           :optimizations :simple
+                           :closure-warnings {:externs-validation :off
+                                              :non-standard-jsdoc :off}
                            :pretty-print false}}
 
                ]}
