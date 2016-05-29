@@ -1,6 +1,6 @@
 # pga2d
 
-An experiment to implement 2D geometric algebra in ClosureScript.
+An experiment to implement 2D geometric algebra in ClojureScript.
 
 ![sample diagram](./screenshot.png)
 
